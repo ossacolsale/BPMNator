@@ -36,9 +36,9 @@ tsc
 
 ## Usage
 
-Once compiled, it can be used in several ways.
+This is a quick guideline. **For a complete guideline of BPMNAtor YAML syntax and library methods, visit https://github.com/ossacolsale/bpmnator/wiki.**
 
-First you need to create one YAML-BPMNator file. For example:
+Once installed, you need to create one YAML-BPMNator file. For example:
 
 ```YAML
 name: Example process
@@ -73,7 +73,6 @@ cd bpmnator              ## if you cloned git repository
 # execute main file:
 node dist/bin/bmpnator
 ```
-***
 
-**For a complete guideline of YAML syntax and library methods, visit https://github.com/ossacolsale/bpmnator/wiki.**
+
 
