@@ -1,6 +1,59 @@
 
 # BPMNator
-BPMNator is a tool to transform a simple YAML file into a simple BPMN 2.0 file.
+
+BPMNator is a tool to transform a simple YAML file into a more complex BPMN 2.0 file.
+
+That means, for example, that BPMNator transforms this four-lines simple YAML file:
+
+```YAML
+process: My BPM process
+activities:
+  My first task:
+    type: human
+```
+
+into the corresponding complex BPMN 2.0 XML standard file:
+
+```XML
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0">
+  <bpmn:process id="MyBpmProcess" name="My BPM process" isExecutable="true">
+    <bpmn:sequenceFlow id="sequenceFlow_1" sourceRef="startEvent_1" targetRef="MyFirstTask" />
+    <bpmn:sequenceFlow id="sequenceFlow_2" sourceRef="MyFirstTask" targetRef="endEvent_1" />
+    <bpmn:startEvent id="startEvent_1">
+      <bpmn:outgoing>sequenceFlow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="endEvent_1">
+      <bpmn:incoming>sequenceFlow_2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="MyFirstTask" name="My first task">
+      <bpmn:incoming>sequenceFlow_1</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_2</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="MyBpmProcess">
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_2" bpmnElement="sequenceFlow_2">
+        <di:waypoint x="340" y="118" />
+        <di:waypoint x="372" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_1" bpmnElement="sequenceFlow_1">
+        <di:waypoint x="188" y="118" />
+        <di:waypoint x="240" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_startEvent_1" bpmnElement="startEvent_1" isExpanded="false">
+        <dc:Bounds x="152" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_MyFirstTask" bpmnElement="MyFirstTask" isExpanded="false">
+        <dc:Bounds x="240" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_endEvent_1" bpmnElement="endEvent_1" isExpanded="false">
+        <dc:Bounds x="372" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
+```
 
 The BPMNator-YAML format supports a few main features of BPMN standard and is useful basically in two contexts:
 

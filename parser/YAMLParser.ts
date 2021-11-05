@@ -23,6 +23,7 @@ export class YAMLParser {
                 }
                 catch (e) {
                     this._error = `Error reading file/url ${YamlRef} (${e.message})`;
+                    console.log(this._error);
                 }
                 break;
             case 'content':
@@ -35,6 +36,7 @@ export class YAMLParser {
             this._yaml = JS_YAML.load(YamlRef);
         } catch (e) {
             this._error = `YAML file formally incorrect (${e.message})`;
+            console.log(this._error);
         }
         if (this.GotError) return;
         //syntax checking
@@ -45,7 +47,7 @@ export class YAMLParser {
             this._nodeIds = SC.nodeIds;
         } catch (e) {
             this._error = `BPMNator syntax error:\n\n(${e.message})`;
-            //console.log(e);
+            console.log(this._error);
         }
         if (this.GotError) return;
         //process builder
@@ -53,8 +55,8 @@ export class YAMLParser {
             const PB = new ProcessBuilder(this._yaml as YAMLstruct);
             this._process = PB.Builder(this._nodeIds);
         } catch (e) {
-            console.log(e);
             this._error = `Process buidler error:\n\n(${e.message})`;
+            console.log(this._error);
         }
         if (this.GotError) return;
 

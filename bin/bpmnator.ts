@@ -80,13 +80,14 @@ try {
                 if (bpmnator.BuildProcess()) {   
                     switch (argv.length) {
                         case 3:
+                            
                             bpmnator.ProduceBPMN().then((val) => console.log(val));
                         break;
                         case 4:
                             bpmnator.SaveBPMN(argv[3]);
                         break;
                     }
-                } else console.log(1);
+                } 
             }
         break;
         default:
