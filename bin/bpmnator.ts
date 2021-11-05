@@ -8,51 +8,86 @@ export class BPMNator {
     private builder: BPMNBuilder;
     private _BPMN: string;
 
+    /**
+     * @returns a string containing the BPMN output
+     */
     public get BPMN (): string {
         return this._BPMN;
     }
 
-    private async DiagramPreprod() {
-        this.builder.BuildBPMNWithoudDiagram();
-        const clog = console.log;
-        console.log = () => {};
-        await this.builder.produceDiagram();
-        console.log = clog;
-    }
-
+    /**
+     * To use after calling BuilProcess()
+     * Produce the complete BPMN file 
+     * @returns a string cointaining the BPMN output
+     */
     public async ProduceBPMN (): Promise<string> {
         await this.DiagramPreprod();
-        return this._BPMN = this.builder.BPMN;
+        this._BPMN = this.builder.BPMN;
+        return this._BPMN;
     }
 
+    /**
+     * To use after calling BuildProcess()
+     * Produce and save the complete BPMN file
+     * @param DestinationURI the complete uri where to save the BPMN file
+     * @param charset (optional) encoding of saved file
+     * @returns true or false, depending on correct file saving
+     */
     public async SaveBPMN (DestinationURI: string, charset: BufferEncoding = 'utf8'): Promise<boolean> {
         await this.DiagramPreprod();
         return this.saveSomethingToURI(this.builder.BPMN, DestinationURI, charset);
     }
 
+    /**
+     * Use as first method. Load YAML file passing a uri to read.
+     * @param URI complete uri of YAML file
+     * @param charset (optional) charset-encoding of the YAML file
+     * @returns true or false depending on correct YAML loading and parsing
+     */
     public LoadYAMLbyURI (URI: string, charset: BufferEncoding = 'utf8'): boolean {
         this.parser = new YAMLParser('uri', URI, charset);
         return this.parser.NoError;
     }
 
+    /**
+     * Use as first method. Load YAML file passed as string.
+     * @param Content content of YAML file
+     * @returns true or false depending on correct YAML loading and parsing
+     */
     public LoadYAMLbyContent (Content: string): boolean {
         this.parser = new YAMLParser('content', Content);
         return this.parser.NoError;
     }
 
+    /**
+     * Use after LoadYAMLbyContent() or LoadYAMLbyURI()
+     * @returns true of false depending on correct building of BPMN structure
+     */
     public BuildProcess (): boolean {
         this.builder = new BPMNBuilder(this.parser.Process);
         return this.builder.NoError;
     }
 
+    /**
+     * To use after calling BuildProcess()
+     * Produce and save a BPMN file with no "diagram"
+     * @param DestinationURI the complete uri where to save the BPMN file
+     * @param charset (optional) encoding of saved file
+     * @returns true or false, depending on correct file saving
+     */
     public SaveBPMNWithoutDiagram (DestinationURI: string, charset: BufferEncoding = 'utf8'): boolean {
-        const BPMN = this.GetBPMNWithoutDiagram();
+        const BPMN = this.ProduceBPMNWithoutDiagram();
         if (BPMN !== null) {
             return this.saveSomethingToURI(BPMN, DestinationURI, charset);
         } else return false;
     }
 
-    public GetBPMNWithoutDiagram (): string {
+    /**
+     * To use after calling BuilProcess()
+     * Produce the BPMN file with no "diagram"
+     * @returns a string cointaining the BPMN output
+     */
+    public ProduceBPMNWithoutDiagram (): string {
         this.builder.BuildBPMNWithoudDiagram();
         if (this.builder.NoError) return this.builder.BPMNWithoutDiagram;
         else return null;
@@ -68,6 +103,14 @@ export class BPMNator {
             return false;
         }
     }
+
+    private async DiagramPreprod() {
+        this.builder.BuildBPMNWithoudDiagram();
+        const clog = console.log;
+        console.log = () => {};
+        await this.builder.produceDiagram();
+        console.log = clog;
+    }
 }
 
 try {    
@@ -80,7 +123,6 @@ try {
                 if (bpmnator.BuildProcess()) {   
                     switch (argv.length) {
                         case 3:
-                            
                             bpmnator.ProduceBPMN().then((val) => console.log(val));
                         break;
                         case 4:
