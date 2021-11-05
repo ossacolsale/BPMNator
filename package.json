@@ -1,0 +1,16 @@
+{
+  "name": "bpmnator",
+  "version": "0.0.3",
+  "description": "BPMNator",
+  "main": "./dist/bin/bpmnator",
+  "types": "./dist/bin/bpmnator.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Giancarlo Mangiagli",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
+}
