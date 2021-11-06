@@ -1,0 +1,14 @@
+# In this process we don't state any goto
+# So the task order will be trivially sequential
+
+process: Implicit goto process
+defaultType: human
+activities:
+  First task:
+  Second task:
+  Third task:
+    type: sub
+    activities:
+      Subprocess first task:
+      Subprocess second task:
+  Fourth task:
