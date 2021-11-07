@@ -51,5 +51,5 @@ The resulting process has this aspect:
 Fastest way to launch this example is through BPMNator CLI:
 
 ```BASH
-node   dist/bin/bpmnator   examples/tasks\ overview/tasks-overview.yaml   examples/tasks\ overview/tasks-overview.bpmn
+node   dist/bin/bpmnator   examples/2.\ tasks\ overview/tasks-overview.yaml   examples/2.\ tasks\ overview/tasks-overview.bpmn
 ```

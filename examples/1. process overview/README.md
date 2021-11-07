@@ -50,5 +50,5 @@ The resulting process has this aspect:
 Fastest way to launch this example is through BPMNator CLI:
 
 ```BASH
-node   dist/bin/bpmnator   examples/process\ overview/process-overview.yaml   examples/process\ overview/process-overview.bpmn
+node   dist/bin/bpmnator   examples/1.\ process\ overview/process-overview.yaml   examples/1.\ process\ overview/process-overview.bpmn
 ```

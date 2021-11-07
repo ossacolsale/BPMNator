@@ -85,5 +85,5 @@ The resulting process has this aspect:
 Fastest way to launch this example is through BPMNator CLI:
 
 ```BASH
-node   dist/bin/bpmnator   examples/explicit\ gateway/explicit-gateway.yaml   examples/explicit\ gateway/explicit-gateway.bpmn
+node   dist/bin/bpmnator   examples/5.\ explicit\ gateway/explicit-gateway.yaml   examples/5.\ explicit\ gateway/explicit-gateway.bpmn
 ```

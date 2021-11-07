@@ -32,5 +32,5 @@ The resulting process has this aspect:
 Fastest way to launch this example is through BPMNator CLI:
 
 ```BASH
-node   dist/bin/bpmnator   examples/implicit\ gateway/implicit-gateway.yaml   examples/implicit\ gateway/implicit-gateway.bpmn
+node   dist/bin/bpmnator   examples/6.\ implicit\ gateway/implicit-gateway.yaml   examples/6.\ implicit\ gateway/implicit-gateway.bpmn
 ```

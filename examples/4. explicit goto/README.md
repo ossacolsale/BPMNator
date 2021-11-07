@@ -36,5 +36,5 @@ The resulting process has this aspect:
 Fastest way to launch this example is through BPMNator CLI:
 
 ```BASH
-node   dist/bin/bpmnator   examples/explicit\ goto/explicit-goto.yaml   examples/explicit\ goto/explicit-goto.bpmn
+node   dist/bin/bpmnator   examples/4.\ explicit\ goto/explicit-goto.yaml   examples/4.\ explicit\ goto/explicit-goto.bpmn
 ```
