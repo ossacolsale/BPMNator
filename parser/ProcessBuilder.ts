@@ -3,6 +3,7 @@ import { Process } from "../entities/Process/Process";
 import { KeyTDict, TActivityType } from "../entities/SharedTypes";
 import { IXgoto } from "../entities/Process/IXgoto";
 import { YAMLstruct, YAMLactivity, YAMLixgoto } from '../entities/YAMLstruct';
+import { ConditionalGotoActivities } from "./SyntaxChecker";
 
 export class ProcessBuilder {
 
@@ -65,7 +66,13 @@ export class ProcessBuilder {
             act.type = this._defaultType; 
         }
         if (YAMLact.goto !== undefined) {
-            act.goto = YAMLact.goto;
+            if (ConditionalGotoActivities.includes(YAMLact.type)) {
+                act.goto = new Array<IXgoto>();
+                const gotoes = YAMLact.goto as IXgoto[];
+                for (let x in gotoes) {
+                    act.goto.push(this.IXgotoBuilder(gotoes[x]));
+                }
+            } else act.goto = YAMLact.goto;
         } else if (YAMLact.pgoto !== undefined) {
             act.pgoto = YAMLact.pgoto;
         } else if (YAMLact.xgoto !== undefined) {

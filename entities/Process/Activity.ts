@@ -1,9 +1,9 @@
 import { EntHelper } from "../../helpers/EntitiesHelper";
-import { TActivityType, TGoto, TPgoto } from "../SharedTypes";
+import { TActivityType, TGoto, TIXgoto, TPgoto } from "../SharedTypes";
 import { IXgoto } from "./IXgoto";
 
 
-export type TIXgoto = IXgoto[];
+
 
 export class Activity {
 

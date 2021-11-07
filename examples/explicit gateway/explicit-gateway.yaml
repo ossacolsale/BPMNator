@@ -1,0 +1,5 @@
+process: Explicit gateway process
+defaultType: human
+activities:
+  First task:
+    

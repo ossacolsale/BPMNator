@@ -2,9 +2,11 @@ import { BPMNConditionExpression, BPMNEndEvent, BPMNInclusiveExclusiveGateway, B
 import { BPMNEntity } from "../entities/BPMN/BPMNEntity";
 import { BPMNNodeNames, BPMNNodeNamesArray } from "../entities/BPMN/BPMNSharedTypes";
 import { Activity } from "../entities/Process/Activity";
+import { IXgoto } from "../entities/Process/IXgoto";
 import { Process } from "../entities/Process/Process";
-import { KeyArrDict, KeyNumDict, KeyStrDict } from "../entities/SharedTypes";
+import { KeyArrDict, KeyNumDict, KeyStrDict, StrOrStrArr } from "../entities/SharedTypes";
 import { EntHelper } from "../helpers/EntitiesHelper";
+import { ConditionalGotoActivities } from "../parser/SyntaxChecker";
 
 export class BPMNProcessBuilder {
 
@@ -56,12 +58,24 @@ export class BPMNProcessBuilder {
             this._incomingFlows[activity.$id].push(flowId);
         }
         if (activity.goto !== undefined) {
-            for (let gt of EntHelper.StrToStrArray(activity.goto)) {
-                let destId = EntHelper.GetIdFromName(gt);
-                let flowId = this.createId('bpmn:sequenceFlow');
-                _ref.addChild(new BPMNSequenceFlow(flowId,activity.$id,destId));
-                this._outgoingFlows[activity.$id].push(flowId);
-                this._incomingFlows[destId].push(flowId);
+            if (ConditionalGotoActivities.includes(activity.type)) {
+                const goto = activity.goto as IXgoto[];
+                for (let gt of goto) {
+                    let destId = EntHelper.GetIdFromName(gt.then);
+                    let flowOutId = this.createId('bpmn:sequenceFlow');
+                    _ref.addChild(new BPMNSequenceFlow(flowOutId,activity.$id,destId,new BPMNConditionExpression(gt.if)));
+                    this._outgoingFlows[activity.$id].push(flowOutId);
+                    this._incomingFlows[destId].push(flowOutId);
+                }
+            } else {
+                const goto = activity.goto as StrOrStrArr;
+                for (let gt of EntHelper.StrToStrArray(goto)) {
+                    let destId = EntHelper.GetIdFromName(gt);
+                    let flowId = this.createId('bpmn:sequenceFlow');
+                    _ref.addChild(new BPMNSequenceFlow(flowId,activity.$id,destId));
+                    this._outgoingFlows[activity.$id].push(flowId);
+                    this._incomingFlows[destId].push(flowId);
+                }
             }
         } else if (activity.xgoto !== undefined || activity.igoto !== undefined) {
             const xgt = activity.xgoto !== undefined;

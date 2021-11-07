@@ -1,4 +1,4 @@
-import { KeyAnyDict, KeyArrDict, KeyObjDict, KeyStrDict, KeyTDict, TrueOrStr, ActivityType } from "../entities/SharedTypes";
+import { KeyAnyDict, KeyArrDict, KeyObjDict, KeyStrDict, KeyTDict, TrueOrStr, ActivityType, TActivityType } from "../entities/SharedTypes";
 import { YAMLactivity } from "../entities/YAMLstruct";
 import { CheckerHelper } from "../helpers/CheckerHelper";
 import { EntHelper } from "../helpers/EntitiesHelper";
@@ -9,8 +9,10 @@ type TChild = TChildPrimitive | TChildCompos;
 
 interface TChildNode {[name: string]: {type: TChild, mandatory: boolean, valueChecker?: (val: any) => boolean, contextChecker?: (node: KeyAnyDict) => TrueOrStr }};
 
-const Gotos = <const> ['goto','xgoto','pgoto','igoto'];
+export const Gotos = <const> ['goto','xgoto','pgoto','igoto'];
 export type TGotos = typeof Gotos[number];
+export const ConditionalGotoActivities: readonly TActivityType[] = <const> ['xgw', 'igw'];
+export type TConditionalGotoActivities = typeof Gotos[number];
 
 
 const AllowedVersions = <const> ['0.0.1'];
@@ -95,6 +97,16 @@ export class SyntaxChecker {
                         }
                     } else return 'The field "igoto" is not valid in activity "' + aName + '"';
                 }
+                if (act.goto !== undefined && ConditionalGotoActivities.includes(act.type)) {
+                    if (CheckerHelper.IsArrayOf(act.goto,'object')) {
+                        for (let i of act.goto as KeyStrDict[]) {
+                            let goto = new IXGotoChecker(i, aName);
+                            let gotocheck = goto.CheckNode();
+                            if (gotocheck !== true) return gotocheck;
+                        }
+                    } else return 'The field "goto" is not valid in activity "' + aName + '"';
+
+                }
                 
                 if (act.activities !== undefined) {
                     let checkactivities = this.CheckActivities(aName, act.activities);
@@ -107,7 +119,14 @@ export class SyntaxChecker {
                 if (act.goto !== undefined) {
                     gotoType = 'goto';
                     if (typeof(act.goto) == 'string') goto.push(act.goto);
-                    else goto = act.goto;
+                    else if (CheckerHelper.IsArrayOf(act.goto, 'string')) goto = act.goto;
+                    else if (ConditionalGotoActivities.includes(act.type)) {
+                        for (let g of act.goto) {
+                            let _goto = act.goto;
+                            for (let x in _goto)
+                                goto.push(_goto[x].then);
+                        }
+                    }
                 } else if (act.xgoto !== undefined) {
                     gotoType = 'xgoto';
                     for (let g of act.xgoto) {
@@ -262,12 +281,15 @@ class ActivityChecker extends NodeChecker {
             type: { type: 'string', mandatory: false, valueChecker: (val) => ActivityType.includes(val) },
             activities: { type: 'object', mandatory: false, contextChecker: (node: YAMLactivity) => node.type == 'sub' ? true : 'Child "activities" admitted only on root node or inside a "sub" activity (see node "' + this._name + '")' },
             goto: { type: ['string','object'], mandatory: false, 
-             contextChecker: (node: YAMLactivity) => typeof(node.goto) == 'string' || ((node.type == 'pgw' || node.type == 'xgw' || node.type == 'igw') && CheckerHelper.IsArrayOf(node.goto,'string')) ? true : '"goto" field must be a single destination. Only in case of activity type "pgw" it can be a list of destinations (see node "' + this._name + '")',
-             valueChecker: (val) => typeof(val) == 'string' || CheckerHelper.IsArrayOf(val,'string') },
+             contextChecker: (node: YAMLactivity) => 
+                typeof(node.goto) == 'string' 
+                || ((node.type == 'pgw') && CheckerHelper.IsArrayOf(node.goto,'string')) ? true : '"goto" field must be a single destination. Only in case of activity type "pgw" it can be a list of destinations (see node "' + this._name + '")'
+                || (ConditionalGotoActivities.includes(node.type) && CheckerHelper.IsArrayOf(node.goto,'object') && (node.goto as []).length > 1) ? true : '"goto" field must contain a list of {if, then} structure, with at least two elements, inside xgw or igw tasks',
+             valueChecker: (val) => typeof(val) == 'string' || CheckerHelper.IsArrayOf(val,'string') || (CheckerHelper.IsArrayOf(val,'object') && (val as []).length > 1)},
             //goto: { type: ['string'], mandatory: false },
             pgoto: { type: ['object'], mandatory: false, valueChecker: (val) => CheckerHelper.IsArrayOf(val,'string') && (val as string[]).length > 1 },
-            xgoto: { type: ['object'], mandatory: false },
-            igoto: { type: ['object'], mandatory: false }
+            xgoto: { type: ['object'], mandatory: false, valueChecker: (val) => CheckerHelper.IsArrayOf(val,'object') && (val as []).length > 1 },
+            igoto: { type: ['object'], mandatory: false, valueChecker: (val) => CheckerHelper.IsArrayOf(val,'object') && (val as []).length > 1 }
         };
         this._mutexContraints.push(Gotos);
     }
