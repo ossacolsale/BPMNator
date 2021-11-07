@@ -1,0 +1,7 @@
+process: This is the process name             # mandatory
+defaultType: human                            # optional
+activities:                                   # optional
+  This is the first activity's name:          # mandatory (no anonym activity admitted)
+    type: task                                # optional
+    goto: This is the second activity's name  # mandatory or optional, depending on "type" tag
+  This is the second activity's name:

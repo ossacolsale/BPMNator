@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+    xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+    xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn">
+    <bpmn:process id="ThisIsTheProcessName" name="This is the process name" isExecutable="true">
+        <bpmn:sequenceFlow id="sequenceFlow_1" sourceRef="startEvent_1" targetRef="ThisIsTheFirstActivity_sName" />
+        <bpmn:sequenceFlow id="sequenceFlow_2" sourceRef="ThisIsTheFirstActivity_sName" targetRef="ThisIsTheSecondActivity_sName" />
+        <bpmn:sequenceFlow id="sequenceFlow_3" sourceRef="ThisIsTheSecondActivity_sName" targetRef="endEvent_1" />
+        <bpmn:startEvent id="startEvent_1">
+            <bpmn:outgoing>sequenceFlow_1</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:task id="ThisIsTheFirstActivity_sName" name="This is the first activity&#39;s name">
+            <bpmn:incoming>sequenceFlow_1</bpmn:incoming>
+            <bpmn:outgoing>sequenceFlow_2</bpmn:outgoing>
+        </bpmn:task>
+        <bpmn:endEvent id="endEvent_1">
+            <bpmn:incoming>sequenceFlow_3</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:userTask id="ThisIsTheSecondActivity_sName" name="This is the second activity&#39;s name">
+            <bpmn:incoming>sequenceFlow_2</bpmn:incoming>
+            <bpmn:outgoing>sequenceFlow_3</bpmn:outgoing>
+        </bpmn:userTask>
+    </bpmn:process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ThisIsTheProcessName">
+            <bpmndi:BPMNShape id="_BPMNShape_startEvent_1" bpmnElement="startEvent_1" isExpanded="false">
+                <dc:Bounds x="52" y="100" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_ThisIsTheFirstActivity_sName" bpmnElement="ThisIsTheFirstActivity_sName" isExpanded="false">
+                <dc:Bounds x="140" y="78" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_1" bpmnElement="sequenceFlow_1">
+                <di:waypoint x="88" y="118" />
+                <di:waypoint x="140" y="118" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_ThisIsTheSecondActivity_sName" bpmnElement="ThisIsTheSecondActivity_sName" isExpanded="false">
+                <dc:Bounds x="260" y="78" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_2" bpmnElement="sequenceFlow_2">
+                <di:waypoint x="240" y="118" />
+                <di:waypoint x="260" y="118" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_endEvent_1" bpmnElement="endEvent_1" isExpanded="false">
+                <dc:Bounds x="380" y="100" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_3" bpmnElement="sequenceFlow_3">
+                <di:waypoint x="360" y="118" />
+                <di:waypoint x="380" y="118" />
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</bpmn:definitions>
