@@ -62,7 +62,7 @@ activities:
 In this process we use all the three gateways available in BPMNator, in an explicit format (that is as an activity):
 - exlusive gateway (activity type `xgw`)
 - inclusive gateway (activity type `igw`)
-- parallel gateqay (activity type `pgw`)
+- parallel gateway (activity type `pgw`)
 
 In the example we have three sequential subprocess, each of that containing a different kind of gateway:
 

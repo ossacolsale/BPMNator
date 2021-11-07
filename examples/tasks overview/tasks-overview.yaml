@@ -1,0 +1,24 @@
+process: Tasks overview
+activities:
+  This is a Subprocess:
+    type: sub
+    activities:
+      This is an activity inside the subprocess:
+  This is a User Task:
+    type: human
+  This is a Manual Task:
+    type: manual
+  This is a Business Rule Task:
+    type: busin
+  This is a Call Activity:
+    type: call
+  This is a Send Task:
+    type: send
+  This is a Receive Task:
+    type: receive
+  This is a Script Task:
+    type: script
+  This is a Service Task:
+    type: serv
+  This is a Task:
+    type: task
