@@ -1,0 +1,11 @@
+process: Implicit gateway process
+defaultType: human
+activities:
+  First task:
+    xgoto:
+      - if: ${condition1}
+        then: Condition1 second task
+      - if: ${condition2}
+        then: Condition2 second task
+  Condition1 second task:
+  Condition2 second task:
