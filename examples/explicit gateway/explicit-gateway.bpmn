@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+    xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+    xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn">
+    <bpmn:process id="ExplicitGatewayProcess" name="Explicit gateway process" isExecutable="true">
+        <bpmn:sequenceFlow id="sequenceFlow_1" sourceRef="startEvent_1" targetRef="Subprocess1" />
+        <bpmn:sequenceFlow id="sequenceFlow_2" sourceRef="Subprocess1" targetRef="Subprocess2" />
+        <bpmn:sequenceFlow id="sequenceFlow_8" sourceRef="Subprocess2" targetRef="Subprocess3" />
+        <bpmn:sequenceFlow id="sequenceFlow_17" sourceRef="Subprocess3" targetRef="endEvent_4" />
+        <bpmn:startEvent id="startEvent_1">
+            <bpmn:outgoing>sequenceFlow_1</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:subProcess id="Subprocess1" name="Subprocess1">
+            <bpmn:sequenceFlow id="sequenceFlow_3" sourceRef="startEvent_2" targetRef="Xgw1" />
+            <bpmn:sequenceFlow id="sequenceFlow_4" sourceRef="Xgw1" targetRef="Subprocess1Condition1-task">
+                <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${condition1}</bpmn:conditionExpression>
+            </bpmn:sequenceFlow>
+            <bpmn:sequenceFlow id="sequenceFlow_5" sourceRef="Xgw1" targetRef="Subprocess1Condition2-task">
+                <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${condition2}</bpmn:conditionExpression>
+            </bpmn:sequenceFlow>
+            <bpmn:sequenceFlow id="sequenceFlow_6" sourceRef="Subprocess1Condition1-task" targetRef="endEvent_1" />
+            <bpmn:sequenceFlow id="sequenceFlow_7" sourceRef="Subprocess1Condition2-task" targetRef="endEvent_2" />
+            <bpmn:startEvent id="startEvent_2">
+                <bpmn:outgoing>sequenceFlow_3</bpmn:outgoing>
+            </bpmn:startEvent>
+            <bpmn:exclusiveGateway id="Xgw1">
+                <bpmn:incoming>sequenceFlow_3</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_4</bpmn:outgoing>
+                <bpmn:outgoing>sequenceFlow_5</bpmn:outgoing>
+            </bpmn:exclusiveGateway>
+            <bpmn:endEvent id="endEvent_1">
+                <bpmn:incoming>sequenceFlow_6</bpmn:incoming>
+            </bpmn:endEvent>
+            <bpmn:endEvent id="endEvent_2">
+                <bpmn:incoming>sequenceFlow_7</bpmn:incoming>
+            </bpmn:endEvent>
+            <bpmn:userTask id="Subprocess1Condition1-task" name="Subprocess1 condition1-task">
+                <bpmn:incoming>sequenceFlow_4</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_6</bpmn:outgoing>
+            </bpmn:userTask>
+            <bpmn:userTask id="Subprocess1Condition2-task" name="Subprocess1 condition2-task">
+                <bpmn:incoming>sequenceFlow_5</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_7</bpmn:outgoing>
+            </bpmn:userTask>
+        </bpmn:subProcess>
+        <bpmn:subProcess id="Subprocess2" name="Subprocess2">
+            <bpmn:sequenceFlow id="sequenceFlow_9" sourceRef="startEvent_3" targetRef="Pgw1" />
+            <bpmn:sequenceFlow id="sequenceFlow_10" sourceRef="Pgw1" targetRef="Subprocess2ParallelTask1" />
+            <bpmn:sequenceFlow id="sequenceFlow_11" sourceRef="Pgw1" targetRef="Subprocess2ParallelTask2" />
+            <bpmn:sequenceFlow id="sequenceFlow_12" sourceRef="Pgw1" targetRef="Subprocess2ParallelTask3" />
+            <bpmn:sequenceFlow id="sequenceFlow_13" sourceRef="Subprocess2ParallelTask1" targetRef="Pgw2" />
+            <bpmn:sequenceFlow id="sequenceFlow_14" sourceRef="Subprocess2ParallelTask2" targetRef="Pgw2" />
+            <bpmn:sequenceFlow id="sequenceFlow_15" sourceRef="Subprocess2ParallelTask3" targetRef="Pgw2" />
+            <bpmn:sequenceFlow id="sequenceFlow_16" sourceRef="Pgw2" targetRef="endEvent_3" />
+            <bpmn:startEvent id="startEvent_3">
+                <bpmn:outgoing>sequenceFlow_9</bpmn:outgoing>
+            </bpmn:startEvent>
+            <bpmn:parallelGateway id="Pgw1">
+                <bpmn:incoming>sequenceFlow_9</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_10</bpmn:outgoing>
+                <bpmn:outgoing>sequenceFlow_11</bpmn:outgoing>
+                <bpmn:outgoing>sequenceFlow_12</bpmn:outgoing>
+            </bpmn:parallelGateway>
+            <bpmn:parallelGateway id="Pgw2">
+                <bpmn:incoming>sequenceFlow_13</bpmn:incoming>
+                <bpmn:incoming>sequenceFlow_14</bpmn:incoming>
+                <bpmn:incoming>sequenceFlow_15</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_16</bpmn:outgoing>
+            </bpmn:parallelGateway>
+            <bpmn:userTask id="Subprocess2ParallelTask1" name="Subprocess2 parallel task1">
+                <bpmn:incoming>sequenceFlow_10</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_13</bpmn:outgoing>
+            </bpmn:userTask>
+            <bpmn:userTask id="Subprocess2ParallelTask2" name="Subprocess2 parallel task2">
+                <bpmn:incoming>sequenceFlow_11</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_14</bpmn:outgoing>
+            </bpmn:userTask>
+            <bpmn:userTask id="Subprocess2ParallelTask3" name="Subprocess2 parallel task3">
+                <bpmn:incoming>sequenceFlow_12</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_15</bpmn:outgoing>
+            </bpmn:userTask>
+            <bpmn:endEvent id="endEvent_3">
+                <bpmn:incoming>sequenceFlow_16</bpmn:incoming>
+            </bpmn:endEvent>
+        </bpmn:subProcess>
+        <bpmn:subProcess id="Subprocess3" name="Subprocess3">
+            <bpmn:sequenceFlow id="sequenceFlow_18" sourceRef="startEvent_4" targetRef="Igw1" />
+            <bpmn:sequenceFlow id="sequenceFlow_19" sourceRef="Igw1" targetRef="Subprocess3Condition1Task1">
+                <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${condition1}</bpmn:conditionExpression>
+            </bpmn:sequenceFlow>
+            <bpmn:sequenceFlow id="sequenceFlow_20" sourceRef="Igw1" targetRef="Subprocess3Condition2Task">
+                <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${condition2}</bpmn:conditionExpression>
+            </bpmn:sequenceFlow>
+            <bpmn:sequenceFlow id="sequenceFlow_21" sourceRef="Subprocess3Condition1Task1" targetRef="Subprocess3Condition1Task2" />
+            <bpmn:sequenceFlow id="sequenceFlow_22" sourceRef="Subprocess3Condition1Task2" targetRef="Igw2" />
+            <bpmn:sequenceFlow id="sequenceFlow_23" sourceRef="Subprocess3Condition2Task" targetRef="Igw2" />
+            <bpmn:sequenceFlow id="sequenceFlow_24" sourceRef="Igw2" targetRef="endEvent_5" />
+            <bpmn:startEvent id="startEvent_4">
+                <bpmn:outgoing>sequenceFlow_18</bpmn:outgoing>
+            </bpmn:startEvent>
+            <bpmn:inclusiveGateway id="Igw1">
+                <bpmn:incoming>sequenceFlow_18</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_19</bpmn:outgoing>
+                <bpmn:outgoing>sequenceFlow_20</bpmn:outgoing>
+            </bpmn:inclusiveGateway>
+            <bpmn:inclusiveGateway id="Igw2">
+                <bpmn:incoming>sequenceFlow_22</bpmn:incoming>
+                <bpmn:incoming>sequenceFlow_23</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_24</bpmn:outgoing>
+            </bpmn:inclusiveGateway>
+            <bpmn:userTask id="Subprocess3Condition1Task1" name="Subprocess3 condition1 task1">
+                <bpmn:incoming>sequenceFlow_19</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_21</bpmn:outgoing>
+            </bpmn:userTask>
+            <bpmn:userTask id="Subprocess3Condition1Task2" name="Subprocess3 condition1 task2">
+                <bpmn:incoming>sequenceFlow_21</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_22</bpmn:outgoing>
+            </bpmn:userTask>
+            <bpmn:userTask id="Subprocess3Condition2Task" name="Subprocess3 condition2 task">
+                <bpmn:incoming>sequenceFlow_20</bpmn:incoming>
+                <bpmn:outgoing>sequenceFlow_23</bpmn:outgoing>
+            </bpmn:userTask>
+            <bpmn:endEvent id="endEvent_5">
+                <bpmn:incoming>sequenceFlow_24</bpmn:incoming>
+            </bpmn:endEvent>
+        </bpmn:subProcess>
+        <bpmn:endEvent id="endEvent_4">
+            <bpmn:incoming>sequenceFlow_17</bpmn:incoming>
+        </bpmn:endEvent>
+    </bpmn:process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ExplicitGatewayProcess">
+            <bpmndi:BPMNShape id="_BPMNShape_startEvent_1" bpmnElement="startEvent_1" isExpanded="false">
+                <dc:Bounds x="52" y="100" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_startEvent_2" bpmnElement="startEvent_2" isExpanded="false">
+                <dc:Bounds x="158" y="150" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Xgw1" bpmnElement="Xgw1" isExpanded="false">
+                <dc:Bounds x="214" y="143" width="50" height="50" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_3" bpmnElement="sequenceFlow_3">
+                <di:waypoint x="194" y="168" />
+                <di:waypoint x="214" y="168" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess1" bpmnElement="Subprocess1" isExpanded="true">
+                <dc:Bounds x="140" y="60" width="318" height="216" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess1Condition2-task" bpmnElement="Subprocess1Condition2-task" isExpanded="false">
+                <dc:Bounds x="284" y="178" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_4" bpmnElement="sequenceFlow_4">
+                <di:waypoint x="264" y="168" />
+                <di:waypoint x="274" y="168" />
+                <di:waypoint x="274" y="118" />
+                <di:waypoint x="284" y="118" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_5" bpmnElement="sequenceFlow_5">
+                <di:waypoint x="264" y="168" />
+                <di:waypoint x="274" y="168" />
+                <di:waypoint x="274" y="218" />
+                <di:waypoint x="284" y="218" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_endEvent_1" bpmnElement="endEvent_1" isExpanded="false">
+                <dc:Bounds x="404" y="100" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_endEvent_2" bpmnElement="endEvent_2" isExpanded="false">
+                <dc:Bounds x="404" y="200" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_6" bpmnElement="sequenceFlow_6">
+                <di:waypoint x="384" y="118" />
+                <di:waypoint x="404" y="118" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_7" bpmnElement="sequenceFlow_7">
+                <di:waypoint x="384" y="218" />
+                <di:waypoint x="404" y="218" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess1Condition1-task" bpmnElement="Subprocess1Condition1-task" isExpanded="false">
+                <dc:Bounds x="284" y="78" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_1" bpmnElement="sequenceFlow_1">
+                <di:waypoint x="88" y="118" />
+                <di:waypoint x="114" y="118" />
+                <di:waypoint x="114" y="168" />
+                <di:waypoint x="140" y="168" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_startEvent_3" bpmnElement="startEvent_3" isExpanded="false">
+                <dc:Bounds x="616" y="150" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Pgw1" bpmnElement="Pgw1" isExpanded="false">
+                <dc:Bounds x="672" y="143" width="50" height="50" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_9" bpmnElement="sequenceFlow_9">
+                <di:waypoint x="652" y="168" />
+                <di:waypoint x="672" y="168" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess2" bpmnElement="Subprocess2" isExpanded="true">
+                <dc:Bounds x="598" y="10" width="388" height="316" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess2ParallelTask2" bpmnElement="Subprocess2ParallelTask2" isExpanded="false">
+                <dc:Bounds x="742" y="128" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess2ParallelTask3" bpmnElement="Subprocess2ParallelTask3" isExpanded="false">
+                <dc:Bounds x="742" y="228" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_10" bpmnElement="sequenceFlow_10">
+                <di:waypoint x="722" y="168" />
+                <di:waypoint x="732" y="168" />
+                <di:waypoint x="732" y="68" />
+                <di:waypoint x="742" y="68" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_11" bpmnElement="sequenceFlow_11">
+                <di:waypoint x="722" y="168" />
+                <di:waypoint x="742" y="168" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_12" bpmnElement="sequenceFlow_12">
+                <di:waypoint x="722" y="168" />
+                <di:waypoint x="732" y="168" />
+                <di:waypoint x="732" y="268" />
+                <di:waypoint x="742" y="268" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Pgw2" bpmnElement="Pgw2" isExpanded="false">
+                <dc:Bounds x="862" y="243" width="50" height="50" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_13" bpmnElement="sequenceFlow_13">
+                <di:waypoint x="842" y="68" />
+                <di:waypoint x="852" y="68" />
+                <di:waypoint x="852" y="268" />
+                <di:waypoint x="862" y="268" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_14" bpmnElement="sequenceFlow_14">
+                <di:waypoint x="842" y="168" />
+                <di:waypoint x="852" y="168" />
+                <di:waypoint x="852" y="268" />
+                <di:waypoint x="862" y="268" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_15" bpmnElement="sequenceFlow_15">
+                <di:waypoint x="842" y="268" />
+                <di:waypoint x="862" y="268" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_endEvent_3" bpmnElement="endEvent_3" isExpanded="false">
+                <dc:Bounds x="932" y="250" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_16" bpmnElement="sequenceFlow_16">
+                <di:waypoint x="912" y="268" />
+                <di:waypoint x="932" y="268" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess2ParallelTask1" bpmnElement="Subprocess2ParallelTask1" isExpanded="false">
+                <dc:Bounds x="742" y="28" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_2" bpmnElement="sequenceFlow_2">
+                <di:waypoint x="458" y="168" />
+                <di:waypoint x="598" y="168" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_startEvent_4" bpmnElement="startEvent_4" isExpanded="false">
+                <dc:Bounds x="1384" y="200.25" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Igw1" bpmnElement="Igw1" isExpanded="false">
+                <dc:Bounds x="1440" y="193.25" width="50" height="50" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_18" bpmnElement="sequenceFlow_18">
+                <di:waypoint x="1420" y="218" />
+                <di:waypoint x="1440" y="218" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess3" bpmnElement="Subprocess3" isExpanded="true">
+                <dc:Bounds x="1366" y="110" width="508" height="216.5" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess3Condition2Task" bpmnElement="Subprocess3Condition2Task" isExpanded="false">
+                <dc:Bounds x="1510" y="228.5" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_19" bpmnElement="sequenceFlow_19">
+                <di:waypoint x="1490" y="218" />
+                <di:waypoint x="1500" y="218" />
+                <di:waypoint x="1500" y="168" />
+                <di:waypoint x="1510" y="168" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_20" bpmnElement="sequenceFlow_20">
+                <di:waypoint x="1490" y="218" />
+                <di:waypoint x="1500" y="218" />
+                <di:waypoint x="1500" y="269" />
+                <di:waypoint x="1510" y="269" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess3Condition1Task2" bpmnElement="Subprocess3Condition1Task2" isExpanded="false">
+                <dc:Bounds x="1630" y="128" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Igw2" bpmnElement="Igw2" isExpanded="false">
+                <dc:Bounds x="1750" y="243.5" width="50" height="50" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_21" bpmnElement="sequenceFlow_21">
+                <di:waypoint x="1610" y="168" />
+                <di:waypoint x="1630" y="168" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_23" bpmnElement="sequenceFlow_23">
+                <di:waypoint x="1610" y="269" />
+                <di:waypoint x="1630" y="268" />
+                <di:waypoint x="1750" y="268" />
+                <di:waypoint x="1750" y="269" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_endEvent_5" bpmnElement="endEvent_5" isExpanded="false">
+                <dc:Bounds x="1820" y="250.5" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_22" bpmnElement="sequenceFlow_22">
+                <di:waypoint x="1730" y="168" />
+                <di:waypoint x="1740" y="168" />
+                <di:waypoint x="1740" y="269" />
+                <di:waypoint x="1750" y="269" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_24" bpmnElement="sequenceFlow_24">
+                <di:waypoint x="1800" y="269" />
+                <di:waypoint x="1820" y="269" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_Subprocess3Condition1Task1" bpmnElement="Subprocess3Condition1Task1" isExpanded="false">
+                <dc:Bounds x="1510" y="128" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_8" bpmnElement="sequenceFlow_8">
+                <di:waypoint x="986" y="168" />
+                <di:waypoint x="1176" y="168" />
+                <di:waypoint x="1176" y="218" />
+                <di:waypoint x="1366" y="218" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_endEvent_4" bpmnElement="endEvent_4" isExpanded="false">
+                <dc:Bounds x="3094" y="200.25" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_17" bpmnElement="sequenceFlow_17">
+                <di:waypoint x="1874" y="218" />
+                <di:waypoint x="3094" y="218" />
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</bpmn:definitions>

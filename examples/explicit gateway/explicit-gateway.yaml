@@ -1,5 +1,53 @@
 process: Explicit gateway process
 defaultType: human
 activities:
-  First task:
-    
+  Subprocess1:
+    type: sub
+    activities:
+      xgw1:
+        type: xgw
+        goto:
+          - if: ${condition1}
+            then: Subprocess1 condition1-task
+          - if: ${condition2}
+            then: Subprocess1 condition2-task
+      Subprocess1 condition1-task:
+      Subprocess1 condition2-task:
+    goto: Subprocess2
+  Subprocess2:
+    type: sub
+    activities:
+      pgw1:
+        type: pgw
+        goto:
+          - Subprocess2 parallel task1
+          - Subprocess2 parallel task2
+          - Subprocess2 parallel task3
+      Subprocess2 parallel task1:
+        goto: pgw2
+      Subprocess2 parallel task2:
+        goto: pgw2
+      Subprocess2 parallel task3:
+        goto: pgw2
+      pgw2:
+        type: pgw
+    goto: Subprocess3
+  Subprocess3:
+    type: sub
+    activities:
+      igw1:
+        type: igw
+        goto:
+          - if: ${condition1}
+            then: Subprocess3 condition1 task1
+          - if: ${condition2}
+            then: Subprocess3 condition2 task
+      Subprocess3 condition1 task1:
+        goto: Subprocess3 condition1 task2
+      Subprocess3 condition1 task2:
+        goto: igw2
+      Subprocess3 condition2 task:
+        goto: igw2
+      igw2:
+        type: igw
+        
