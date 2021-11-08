@@ -124,7 +124,8 @@ export class SyntaxChecker {
                         for (let g of act.goto) {
                             let _goto = act.goto;
                             for (let x in _goto)
-                                goto.push(_goto[x].then);
+                                if (_goto[x].then !== undefined)
+                                    goto.push(_goto[x].then);
                         }
                     }
                 } else if (act.xgoto !== undefined) {
@@ -132,7 +133,8 @@ export class SyntaxChecker {
                     for (let g of act.xgoto) {
                         let xgoto = act.xgoto;
                         for (let x in xgoto)
-                            goto.push(xgoto[x].then);
+                            if (xgoto[x].then !== undefined)
+                                goto.push(xgoto[x].then);
                     }
                 } else if (act.igoto !== undefined) {
                     gotoType = 'igoto';
@@ -316,7 +318,7 @@ class IXGotoChecker extends NodeChecker {
         super(node, name);
         this._childnodes = {
             if: { type: ['string'], mandatory: true },
-            then: { type: ['string'], mandatory: true }
+            then: { type: ['string'], mandatory: false }
         };
     }
 }

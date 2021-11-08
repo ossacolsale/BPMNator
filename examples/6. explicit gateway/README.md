@@ -77,6 +77,8 @@ In the example we have three sequential subprocess, each of that containing a di
 
 3. `Subprocess3` starts with a inclusive gateway, (named `igw1`), followed by two alternative flows. Inside `goto` tag, we write a list of two conditions: `if` the expression `${condition1}` is true, `then` we go to the task `Subprocess3 condition1 task1`, else `if` the expression `${condition2}` is true, `then` we go to the task `Subprocess3 condition2 task`. The task `Subprocess3 condition1 task1` goes to the task `Subprocess3 condition1 task2`. Finally tasks `Subprocess3 condition1 task2` and `Subprocess3 condition2 task` both have the value `igw2` inside `goto` tag. Infact these two tasks rejoin in a second inclusive gateway, named `igw2`.
 
+If the field `then` is omitted, the respective satisfied condition goes to an end event.
+
 The resulting process has this aspect:
 
 ![Explicit gateway](explicit-gateway.png?raw=true)
@@ -85,5 +87,5 @@ The resulting process has this aspect:
 Fastest way to launch this example is through BPMNator CLI:
 
 ```BASH
-node   dist/bin/bpmnator   examples/5.\ explicit\ gateway/explicit-gateway.yaml   examples/5.\ explicit\ gateway/explicit-gateway.bpmn
+node   dist/bin/bpmnator   examples/6.\ explicit\ gateway/explicit-gateway.yaml   examples/6.\ explicit\ gateway/explicit-gateway.bpmn
 ```

@@ -61,11 +61,18 @@ export class BPMNProcessBuilder {
             if (ConditionalGotoActivities.includes(activity.type)) {
                 const goto = activity.goto as IXgoto[];
                 for (let gt of goto) {
-                    let destId = EntHelper.GetIdFromName(gt.then);
-                    let flowOutId = this.createId('bpmn:sequenceFlow');
+                    const flowOutId = this.createId('bpmn:sequenceFlow');
+                    let destId: string;
+                    //goto -> end
+                    if (gt.then === undefined) {
+                        destId = this.createId('bpmn:endEvent');
+                        _ref.addChild(new BPMNEndEvent(destId,flowOutId));
+                    } else {
+                        destId = EntHelper.GetIdFromName(gt.then);
+                        this._incomingFlows[destId].push(flowOutId);
+                    }
                     _ref.addChild(new BPMNSequenceFlow(flowOutId,activity.$id,destId,new BPMNConditionExpression(gt.if)));
                     this._outgoingFlows[activity.$id].push(flowOutId);
-                    this._incomingFlows[destId].push(flowOutId);
                 }
             } else {
                 const goto = activity.goto as StrOrStrArr;
@@ -86,11 +93,18 @@ export class BPMNProcessBuilder {
             _ref.addChild(new BPMNSequenceFlow(flowInId, activity.$id, ixgwId));
             const gotoes = xgt ? activity.xgoto : activity.igoto;
             for (let gt of gotoes) {
-                let destId = EntHelper.GetIdFromName(gt.then);
-                let flowOutId = this.createId('bpmn:sequenceFlow');
+                const flowOutId = this.createId('bpmn:sequenceFlow');
+                let destId: string;
+                //goto -> end
+                if (gt.then === undefined) {
+                    destId = this.createId('bpmn:endEvent');
+                    _ref.addChild(new BPMNEndEvent(destId,flowOutId));
+                } else {
+                    destId = EntHelper.GetIdFromName(gt.then);
+                    this._incomingFlows[destId].push(flowOutId);
+                }
                 _ref.addChild(new BPMNSequenceFlow(flowOutId,ixgwId,destId,new BPMNConditionExpression(gt.if)));
                 this._outgoingFlows[ixgwId].push(flowOutId);
-                this._incomingFlows[destId].push(flowOutId);
             }
             _ref.addChild(new BPMNInclusiveExclusiveGateway(xgt ? 'exc' : 'inc', ixgwId, flowInId, this._outgoingFlows[ixgwId]));
         } else if (activity.pgoto !== undefined) {

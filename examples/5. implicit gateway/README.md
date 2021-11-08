@@ -24,6 +24,8 @@ The tag `xgoto` must be followed by a list of at least two elements of an struct
 
 _The same way we can use `pgoto` (parallel gateway goto) and `igoto` (inclusive gateway goto) with one substantial difference: parallel and inclusive gateways must be rejoined at some point with another gateway of the same type (for this purpose we can use the task of type `pgw` - parallel gateway - and `igw` - inclusive gateway)._
 
+If the field `then` is omitted, the respective satisfied condition goes to an end event.
+
 The resulting process has this aspect:
 
 ![Implicit gateway](implicit-gateway.png?raw=true)
@@ -32,5 +34,5 @@ The resulting process has this aspect:
 Fastest way to launch this example is through BPMNator CLI:
 
 ```BASH
-node   dist/bin/bpmnator   examples/6.\ implicit\ gateway/implicit-gateway.yaml   examples/6.\ implicit\ gateway/implicit-gateway.bpmn
+node   dist/bin/bpmnator   examples/5.\ implicit\ gateway/implicit-gateway.yaml   examples/5.\ implicit\ gateway/implicit-gateway.bpmn
 ```
