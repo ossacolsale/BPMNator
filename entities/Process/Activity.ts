@@ -14,14 +14,16 @@ export class Activity {
     private _igoto: TIXgoto;
     private _pgoto: TPgoto;
     private _activities: Activity[];
+    private _condition: string;
 
-    public constructor (name?: string, type?: TActivityType, goto?: TGoto, xgoto?: TIXgoto, pgoto?: TPgoto, activities?: Activity[], igoto?:TIXgoto) {
+    public constructor (name?: string, type?: TActivityType, goto?: TGoto, xgoto?: TIXgoto, pgoto?: TPgoto, activities?: Activity[], igoto?:TIXgoto, condition?: string) {
         this._name = name;
         this._type = type;
         this._goto = goto;
         this._xgoto = xgoto;
         this._igoto = igoto;
         this._pgoto = pgoto;
+        this._condition = condition;
         this._activities = activities;
     }
 
@@ -72,6 +74,14 @@ export class Activity {
     }
     public set activities (aActivities: Activity[]) {
         this._activities = aActivities;
+    }
+
+    public get condition () : string {
+        return this._condition;
+    }
+
+    public set condition (aCondition: string) {
+        this._condition = aCondition;
     }
 
     public get $id () : string {

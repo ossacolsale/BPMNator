@@ -1,4 +1,3 @@
-import { type } from "os";
 import { TGoto } from "../entities/SharedTypes";
 
 export class EntHelper {

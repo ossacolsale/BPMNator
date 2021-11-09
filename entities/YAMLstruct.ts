@@ -15,7 +15,8 @@ export interface YAMLactivity {
     pgoto?: TPgoto,
     xgoto?: YAMLixgoto[],
     igoto?: YAMLixgoto[],
-    activities?: KeyTDict<YAMLactivity>
+    activities?: KeyTDict<YAMLactivity>,
+    condition?: string
 }
 
 export interface YAMLixgoto {

@@ -10,3 +10,5 @@ activities:
         then: Task 2
   Task 2:
   Task 3:
+    type: incond
+    condition: pippo

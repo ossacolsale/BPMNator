@@ -1,23 +1,37 @@
+import { create } from 'domain';
 import { create as xml } from 'xmlbuilder2';
 import { Process } from '../entities/Process/Process';
+import { KeyObjDict } from '../entities/SharedTypes';
 import { BPMNProcessBuilder } from './BPMNProcessBuilder';
 
 export class BPMNBuilder {
 
     private _mainNodeName: string = 'bpmn:definitions';
+    private _processNodeName: string = 'bpmn:process';
     private _xmlObj: any;
     private _error: string = null;
     private _BPMNcomplete: string;
     private _BPMNWithoutDiagram: string;
+    private _processXML: {};
     private _TESTDIAG: string = `
     
     `; //put here a diagram to test
 
     public async produceDiagram () {
+        console.log('test');
         const AutoLayout = require('bpmn-auto-layout');    
         const autoLayout = new AutoLayout();
-        this._BPMNcomplete = await autoLayout.layoutProcess(this.BPMNWithoutDiagram);
-        //this._BPMNcomplete = await autoLayout.layoutProcess(this._TESTDIAG);
+        const BPMNComplete = await autoLayout.layoutProcess(this.BPMNWithoutDiagram);
+/*      
+        let split1: string = BPMNComplete.split('<'+this._processNodeName+' ')[0];
+        let split2: string = BPMNComplete.split('</'+this._processNodeName+'>')[1];
+        const processObj: KeyObjDict = {};
+        processObj[this._processNodeName] = this._processXML;
+        const process = xml(processObj).end();
+        const doc = xml(split1 + process + split2);
+*/
+        const doc = xml(BPMNComplete);
+        this._BPMNcomplete = doc.end({ prettyPrint: true });
     }
 
     public constructor (process: Process) {
@@ -33,8 +47,8 @@ export class BPMNBuilder {
         
         try {
             const PB = new BPMNProcessBuilder(process);
-            const processXML = PB.BPMN.ToObject();
-            this.mainNode['bpmn:process'] = processXML;
+            this._processXML = PB.BPMN.ToObject();
+            this.mainNode[this._processNodeName] = this._processXML;
         } catch (e) {
             this._error = e.message;
             console.log(e);

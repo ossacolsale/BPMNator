@@ -1,6 +1,6 @@
-import { BPMNConditionExpression, BPMNEndEvent, BPMNInclusiveExclusiveGateway, BPMNProcess, BPMNSequenceFlow, BPMNStartEvent, BPMNSubProcess, BPMNUserTask, BPMNParallelGateway, BPMNBusinessRuleTask, BPMNCallActivity, BPMNManualTask, BPMNReceiveTask, BPMNScriptTask, BPMNServiceTask, BPMNTask } from "../entities/BPMN/BPMNElements";
+import { BPMNConditionExpression, BPMNEndEvent, BPMNInclusiveExclusiveGateway, BPMNProcess, BPMNSequenceFlow, BPMNStartEvent, BPMNSubProcess, BPMNUserTask, BPMNParallelGateway, BPMNBusinessRuleTask, BPMNCallActivity, BPMNManualTask, BPMNReceiveTask, BPMNScriptTask, BPMNServiceTask, BPMNTask, BPMNIntermediateThrowEvent, BPMNMessageIntermediateCatchEvent, BPMNMessageIntermediateThrowEvent, BPMNTimerIntermediateCatchEvent, BPMNEscalationIntermediateThrowEvent, BPMNConditionalIntermediateThrowEvent, BPMNCompensateIntermediateThrowEvent, BPMNSignalIntermediateCatchEvent, BPMNSignalIntermediateThrowEvent, BPMNLinkIntermediateThrowEvent } from "../entities/BPMN/BPMNElements";
 import { BPMNEntity } from "../entities/BPMN/BPMNEntity";
-import { BPMNNodeNames, BPMNNodeNamesArray } from "../entities/BPMN/BPMNSharedTypes";
+import { TBPMNNodeNames, BPMNNodeNames } from "../entities/BPMN/BPMNSharedTypes";
 import { Activity } from "../entities/Process/Activity";
 import { IXgoto } from "../entities/Process/IXgoto";
 import { Process } from "../entities/Process/Process";
@@ -173,24 +173,56 @@ export class BPMNProcessBuilder {
             case 'task':
                 _ref.addChild(new BPMNTask(activity.$id, activity.name, this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
             break;
+//#region intermediate events
+            case 'inthrow':
+                _ref.addChild(new BPMNIntermediateThrowEvent(activity.$id, activity.name, this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'inmcatch':
+                _ref.addChild(new BPMNMessageIntermediateCatchEvent(activity.$id, activity.name, this.createId('bpmn:messageEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'inmthrow':
+                _ref.addChild(new BPMNMessageIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:messageEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'intimer':
+                _ref.addChild(new BPMNTimerIntermediateCatchEvent(activity.$id, activity.name, this.createId('bpmn:timerEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'inescal':
+                _ref.addChild(new BPMNEscalationIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:escalationEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'incond':
+                _ref.addChild(new BPMNConditionalIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:conditionalEventDefinition'), activity.condition, this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'incomp':
+                _ref.addChild(new BPMNCompensateIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:compensateEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'inscatch':
+                _ref.addChild(new BPMNSignalIntermediateCatchEvent(activity.$id, activity.name, this.createId('bpmn:signalEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'insthrow':
+                _ref.addChild(new BPMNSignalIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:signalEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+            case 'inlthrow':
+                _ref.addChild(new BPMNLinkIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:linkEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+            break;
+//#endregion
         }
     }
 
     //#region PrefixesFunctions
-    private createId (nodeName: BPMNNodeNames): string {
+    private createId (nodeName: TBPMNNodeNames): string {
         return this._idPrefixes[nodeName] + '_' + (++this._prefixesProg[nodeName]).toString();
     }
 
     private buildIdPrefixes () {
         this._idPrefixes = {};
         this._prefixesProg = {};
-        for (let name of BPMNNodeNamesArray) {
+        for (let name of BPMNNodeNames) {
             this._idPrefixes[name] = this.buildPrefix(name);
             this._prefixesProg[name] = 0;
         }
     }
 
-    private buildPrefix (nodeName: BPMNNodeNames): string {
+    private buildPrefix (nodeName: TBPMNNodeNames): string {
         let prefix = nodeName.substr('bpmn:'.length);
         const addPrefix = '_';
         

@@ -1,26 +1,26 @@
 import { KeyStrDict, KeyTDict } from '../SharedTypes';
 import { BPMNConditionExpression, BPMNEndEvent, BPMNInclusiveExclusiveGateway, BPMNIncoming, BPMNOutgoing, BPMNParallelGateway, BPMNProcess, BPMNSequenceFlow, BPMNStartEvent, BPMNSubProcess, BPMNUserTask } from './BPMNElements';
-import { BPMNEntKV, BPMNNodeNames } from './BPMNSharedTypes';
+import { TBPMNEntKV, TBPMNNodeNames } from './BPMNSharedTypes';
 
 export abstract class BPMNEntity {
 
-    protected _nodeName: BPMNNodeNames;
-    protected _children: BPMNEntKV;
+    protected _nodeName: TBPMNNodeNames;
+    protected _children: TBPMNEntKV;
     protected _attributes: KeyStrDict;
     protected _value: string;
 
-    public get nodeName(): BPMNNodeNames { return this._nodeName; }
-    public set nodeName(aName: BPMNNodeNames) { this._nodeName = aName; }
+    public get nodeName(): TBPMNNodeNames { return this._nodeName; }
+    public set nodeName(aName: TBPMNNodeNames) { this._nodeName = aName; }
 
-    public get children(): BPMNEntKV { return this._children; }
-    public set children(Children: BPMNEntKV) { this._children = Children; }
+    public get children(): TBPMNEntKV { return this._children; }
+    public set children(Children: TBPMNEntKV) { this._children = Children; }
 
     public get attributes(): KeyStrDict { return this._attributes; }
 
     public get value(): string { return this._value; }
     public set value(val: string) { this._value = val; }
 
-    public constructor(nodeName: BPMNNodeNames, value?: string, attributes?: KeyStrDict, children?: BPMNEntKV) {
+    public constructor(nodeName: TBPMNNodeNames, value?: string, attributes?: KeyStrDict, children?: TBPMNEntKV) {
         this._nodeName = nodeName;
         this._value = value;
         this._children = children;
@@ -30,9 +30,7 @@ export abstract class BPMNEntity {
     public ToObject(): {} {
         const obj: any = {};
 
-        if (this._value !== undefined) {
-            obj['#'] = this._value;
-        }
+        
         
         if (this._attributes !== undefined)
             for (let attr in this._attributes) {
@@ -47,6 +45,10 @@ export abstract class BPMNEntity {
                 }
             }
 
+        }
+
+        if (this._value !== undefined) {
+            obj['#'] = this._value;
         }
         return obj;
     }

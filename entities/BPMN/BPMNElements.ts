@@ -1,10 +1,10 @@
 import { BPMNEntity } from "./BPMNEntity";
-import { BPMNBoolean, BPMNNodeNames } from "./BPMNSharedTypes";
+import { TBPMNBoolean, TBPMNNodeNames } from "./BPMNSharedTypes";
 import { EntHelper } from "../../helpers/EntitiesHelper";
 import { StrOrStrArr } from "../SharedTypes";
 
 export class BPMNProcess extends BPMNEntity {
-    public constructor(id: string, processName: string, isExecutable: BPMNBoolean = 'true') {
+    public constructor(id: string, processName: string, isExecutable: TBPMNBoolean = 'true') {
         super('bpmn:process',undefined,{id: id, name: processName, isExecutable: isExecutable});
     }
 }
@@ -44,7 +44,7 @@ export class BPMNSequenceFlow extends BPMNEntity {
 //#region tasks
 
 export abstract class BPMNGenericTask extends BPMNEntity {
-    public constructor(taskType: BPMNNodeNames, id: string, taskName?: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+    public constructor(taskType: TBPMNNodeNames, id: string, taskName?: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
         super(taskType, undefined, {id: id});
         if (incomingIds !== undefined) {
             for (let inc of EntHelper.StrToStrArray(incomingIds)) {
@@ -129,41 +129,21 @@ export class BPMNEndEvent extends BPMNEntity {
     }
 }
 
-export class BPMNInclusiveExclusiveGateway extends BPMNEntity {
+export class BPMNInclusiveExclusiveGateway extends BPMNGenericTask {
     public constructor(type: 'inc' | 'exc', id: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
-        super(type == 'exc' ? 'bpmn:exclusiveGateway' : 'bpmn:inclusiveGateway', undefined, {id: id});
-        if (incomingIds !== undefined) {
-            for (let inc of EntHelper.StrToStrArray(incomingIds)) {
-                this.addChild(new BPMNIncoming(inc));
-            }
-        }
-        if (outgoingIds !== undefined) {
-            for (let out of EntHelper.StrToStrArray(outgoingIds)) {
-                this.addChild(new BPMNOutgoing(out));
-            }
-        }
+        super(type == 'exc' ? 'bpmn:exclusiveGateway' : 'bpmn:inclusiveGateway', id, undefined, incomingIds, outgoingIds);
     }
 }
 
-export class BPMNParallelGateway extends BPMNEntity {
+export class BPMNParallelGateway extends BPMNGenericTask {
     public constructor(id: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
-        super('bpmn:parallelGateway', undefined, {id: id});
-        if (incomingIds !== undefined) {
-            for (let inc of EntHelper.StrToStrArray(incomingIds)) {
-                this.addChild(new BPMNIncoming(inc));
-            }
-        }
-        if (outgoingIds !== undefined) {
-            for (let out of EntHelper.StrToStrArray(outgoingIds)) {
-                this.addChild(new BPMNOutgoing(out));
-            }
-        }
+        super('bpmn:parallelGateway', id, undefined, incomingIds, outgoingIds);
     }
 }
 
-export class BPMNSubProcess extends BPMNEntity {
+export class BPMNSubProcess extends BPMNGenericTask {
     public constructor (id: string, subprocessName: string, incomingIds: string[], outgoingIds: string[]) {
-        super('bpmn:subProcess',undefined,{id: id, name: subprocessName});
+        super('bpmn:subProcess',id,subprocessName,incomingIds,outgoingIds);
     }
 }
 
@@ -172,3 +152,132 @@ export class BPMNConditionExpression extends BPMNEntity {
         super('bpmn:conditionExpression',expression,{'xsi:type': type});
     }
 }
+
+export class BPMNCondition extends BPMNEntity {
+    public constructor (expression: string, type: string = 'bpmn:tFormalExpression') {
+        super('bpmn:condition',expression,{'xsi:type': type});
+    }
+}
+
+//#region intermediate events
+
+export class BPMNIntermediateThrowEvent extends BPMNGenericTask {
+    public constructor (id: string, name: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super('bpmn:intermediateThrowEvent', id, name, incomingIds, outgoingIds);
+    }
+
+}
+
+export class BPMNIntermediateCatchEvent extends BPMNGenericTask {
+    public constructor (id: string, name: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super('bpmn:intermediateCatchEvent', id, name, incomingIds, outgoingIds);
+    }
+}
+
+class BPMNMessageEventDefinition extends BPMNEntity {
+    public constructor(id: string) {
+        super('bpmn:messageEventDefinition', undefined, {id: id});
+    }
+}
+
+export class BPMNMessageIntermediateCatchEvent extends BPMNIntermediateCatchEvent {
+    public constructor (id: string, name: string, messageEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNMessageEventDefinition(messageEventDefinitionId));
+    }
+}
+
+export class BPMNMessageIntermediateThrowEvent extends BPMNIntermediateThrowEvent {
+    public constructor (id: string, name: string, messageEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNMessageEventDefinition(messageEventDefinitionId));
+    }
+}
+
+class BPMNTimerEventDefinition extends BPMNEntity {
+    public constructor(id: string) {
+        super('bpmn:timerEventDefinition', undefined, {id: id});
+    }
+}
+
+export class BPMNTimerIntermediateCatchEvent extends BPMNIntermediateCatchEvent {
+    public constructor (id: string, name: string, timerEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNTimerEventDefinition(timerEventDefinitionId));
+    }
+}
+
+class BPMNEscalationEventDefinition extends BPMNEntity {
+    public constructor(id: string) {
+        super('bpmn:escalationEventDefinition', undefined, {id: id});
+    }
+}
+
+export class BPMNEscalationIntermediateThrowEvent extends BPMNIntermediateCatchEvent {
+    public constructor (id: string, name: string, escalationEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNEscalationEventDefinition(escalationEventDefinitionId));
+    }
+}
+
+class BPMNConditionalEventDefinition extends BPMNEntity {
+    public constructor(id: string, condition: string) {
+        super('bpmn:conditionalEventDefinition', undefined, {id: id});
+        this.addChild(new BPMNCondition(condition));
+    }
+}
+
+export class BPMNConditionalIntermediateThrowEvent extends BPMNIntermediateThrowEvent {
+    public constructor (id: string, name: string, conditionalEventDefinitionId: string, condition: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNConditionalEventDefinition(conditionalEventDefinitionId, condition));
+    }
+}
+
+class BPMNLinkEventDefinition extends BPMNEntity {
+    public constructor(id: string) {
+        super('bpmn:linkEventDefinition', undefined, {id: id});
+    }
+}
+
+export class BPMNLinkIntermediateThrowEvent extends BPMNIntermediateThrowEvent {
+    public constructor (id: string, name: string, linkEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNLinkEventDefinition(linkEventDefinitionId));
+    }
+}
+
+class BPMNCompensateEventDefinition extends BPMNEntity {
+    public constructor(id: string) {
+        super('bpmn:compensateEventDefinition', undefined, {id: id});
+    }
+}
+
+export class BPMNCompensateIntermediateThrowEvent extends BPMNIntermediateThrowEvent {
+    public constructor (id: string, name: string, compensateEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNCompensateEventDefinition(compensateEventDefinitionId));
+    }
+}
+
+class BPMNSignalEventDefinition extends BPMNEntity {
+    public constructor(id: string) {
+        super('bpmn:signalEventDefinition', undefined, {id: id});
+    }
+}
+
+export class BPMNSignalIntermediateCatchEvent extends BPMNIntermediateCatchEvent {
+    public constructor (id: string, name: string, signalEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNSignalEventDefinition(signalEventDefinitionId));
+    }
+}
+
+export class BPMNSignalIntermediateThrowEvent extends BPMNIntermediateThrowEvent {
+    public constructor (id: string, name: string, signalEventDefinitionId: string, incomingIds?: StrOrStrArr, outgoingIds?: StrOrStrArr) {
+        super(id, name, incomingIds, outgoingIds);
+        this.addChild(new BPMNSignalEventDefinition(signalEventDefinitionId));
+    }
+}
+
+//#endregion

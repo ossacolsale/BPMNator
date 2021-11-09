@@ -286,12 +286,13 @@ class ActivityChecker extends NodeChecker {
              contextChecker: (node: YAMLactivity) => 
                 typeof(node.goto) == 'string' 
                 || ((node.type == 'pgw') && CheckerHelper.IsArrayOf(node.goto,'string')) ? true : '"goto" field must be a single destination. Only in case of activity type "pgw" it can be a list of destinations (see node "' + this._name + '")'
-                || (ConditionalGotoActivities.includes(node.type) && CheckerHelper.IsArrayOf(node.goto,'object') && (node.goto as []).length > 1) ? true : '"goto" field must contain a list of {if, then} structure, with at least two elements, inside xgw or igw tasks',
+                || (ConditionalGotoActivities.includes(node.type) && CheckerHelper.IsArrayOf(node.goto,'object') && (node.goto as []).length > 1) ? true : '"goto" field must contain a list of {if, then} structure, with at least two elements, inside xgw or igw tasks (see node "' + this._name + '")',
              valueChecker: (val) => typeof(val) == 'string' || CheckerHelper.IsArrayOf(val,'string') || (CheckerHelper.IsArrayOf(val,'object') && (val as []).length > 1)},
             //goto: { type: ['string'], mandatory: false },
             pgoto: { type: ['object'], mandatory: false, valueChecker: (val) => CheckerHelper.IsArrayOf(val,'string') && (val as string[]).length > 1 },
             xgoto: { type: ['object'], mandatory: false, valueChecker: (val) => CheckerHelper.IsArrayOf(val,'object') && (val as []).length > 1 },
-            igoto: { type: ['object'], mandatory: false, valueChecker: (val) => CheckerHelper.IsArrayOf(val,'object') && (val as []).length > 1 }
+            igoto: { type: ['object'], mandatory: false, valueChecker: (val) => CheckerHelper.IsArrayOf(val,'object') && (val as []).length > 1 },
+            condition: { type: 'string', mandatory: false, contextChecker: (node) => node.type as TActivityType == 'incond' ? true : 'Field "condition" is admitted only for "incond" activity type (see node "' + this._name + '")' }
         };
         this._mutexContraints.push(Gotos);
     }

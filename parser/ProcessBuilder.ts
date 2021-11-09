@@ -89,6 +89,9 @@ export class ProcessBuilder {
         if (YAMLact.activities !== undefined) {
             act.activities = this.ActivityBuilderBase(YAMLact.activities);
         }
+        if (YAMLact.condition !== undefined) {
+            act.condition = YAMLact.condition;
+        }
         return act;
     }
 

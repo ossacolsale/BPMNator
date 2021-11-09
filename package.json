@@ -1,6 +1,6 @@
 {
   "name": "bpmnator",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "BPMNator",
   "main": "./dist/bin/bpmnator",
   "types": "./dist/bin/bpmnator.d.ts",
@@ -11,6 +11,13 @@
   "author": "Giancarlo Mangiagli",
   "license": "ISC",
   "devDependencies": {
+    "@types/js-yaml": "^4.0.4",
     "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "bpmn-auto-layout": "^0.1.0",
+    "fs": "0.0.1-security",
+    "js-yaml": "^4.1.0",
+    "xmlbuilder2": "^3.0.2"
   }
 }

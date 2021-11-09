@@ -16,7 +16,7 @@ into the corresponding complex BPMN 2.0 XML standard file:
 
 ```XML
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn">
   <bpmn:process id="MyBpmProcess" name="My BPM process" isExecutable="true">
     <bpmn:sequenceFlow id="sequenceFlow_1" sourceRef="startEvent_1" targetRef="MyFirstTask" />
     <bpmn:sequenceFlow id="sequenceFlow_2" sourceRef="MyFirstTask" targetRef="endEvent_1" />
