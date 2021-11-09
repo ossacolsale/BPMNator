@@ -201,9 +201,9 @@ export class BPMNProcessBuilder {
             case 'insthrow':
                 _ref.addChild(new BPMNSignalIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:signalEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
             break;
-            case 'inlthrow':
+            /*case 'inlthrow':
                 _ref.addChild(new BPMNLinkIntermediateThrowEvent(activity.$id, activity.name, this.createId('bpmn:linkEventDefinition'), this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
-            break;
+            break;*/
 //#endregion
         }
     }

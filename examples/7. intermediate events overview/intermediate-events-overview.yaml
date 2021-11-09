@@ -1,0 +1,21 @@
+process: Intermediate events overview
+activities:
+  This is an Intermediate Throw Event:
+    type: inthrow
+  This is a Conditional Intermediate Throw Event:
+    type: incond
+    condition: ${conditionExpression}
+  This is a Compensate Intermediate Throw Event:
+    type: incomp
+  This is a Signal Intermediate Throw Event:
+    type: insthrow
+  This is a Signal Intermediate Catch Event:
+    type: inscatch
+  This is a Message Intermediate Throw Event:
+    type: inmthrow
+  This is a Message Intermediate Catch Event:
+    type: inmcatch
+  This is a Timer Intermediate Catch Event:
+    type: intimer
+  This is a Escalation Intermediate Throw Event:
+    type: inescal

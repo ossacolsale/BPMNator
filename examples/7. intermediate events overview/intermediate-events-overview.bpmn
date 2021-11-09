@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="IntermediateEventsOverview" name="Intermediate events overview" isExecutable="true">
+    <bpmn:sequenceFlow id="sequenceFlow_1" sourceRef="startEvent_1" targetRef="ThisIsAnIntermediateThrowEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_2" sourceRef="ThisIsAnIntermediateThrowEvent" targetRef="ThisIsAConditionalIntermediateThrowEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_3" sourceRef="ThisIsAConditionalIntermediateThrowEvent" targetRef="ThisIsACompensateIntermediateThrowEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_4" sourceRef="ThisIsACompensateIntermediateThrowEvent" targetRef="ThisIsASignalIntermediateThrowEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_5" sourceRef="ThisIsASignalIntermediateThrowEvent" targetRef="ThisIsASignalIntermediateCatchEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_6" sourceRef="ThisIsASignalIntermediateCatchEvent" targetRef="ThisIsAMessageIntermediateThrowEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_7" sourceRef="ThisIsAMessageIntermediateThrowEvent" targetRef="ThisIsAMessageIntermediateCatchEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_8" sourceRef="ThisIsAMessageIntermediateCatchEvent" targetRef="ThisIsATimerIntermediateCatchEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_9" sourceRef="ThisIsATimerIntermediateCatchEvent" targetRef="ThisIsAEscalationIntermediateThrowEvent"/>
+    <bpmn:sequenceFlow id="sequenceFlow_10" sourceRef="ThisIsAEscalationIntermediateThrowEvent" targetRef="endEvent_1"/>
+    <bpmn:startEvent id="startEvent_1">
+      <bpmn:outgoing>sequenceFlow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="ThisIsAnIntermediateThrowEvent" name="This is an Intermediate Throw Event">
+      <bpmn:incoming>sequenceFlow_1</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_2</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="ThisIsAConditionalIntermediateThrowEvent" name="This is a Conditional Intermediate Throw Event">
+      <bpmn:incoming>sequenceFlow_2</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_3</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="conditionalEventDefinition_1">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${conditionExpression}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="ThisIsACompensateIntermediateThrowEvent" name="This is a Compensate Intermediate Throw Event">
+      <bpmn:incoming>sequenceFlow_3</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_4</bpmn:outgoing>
+      <bpmn:compensateEventDefinition id="compensateEventDefinition_1"/>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="ThisIsASignalIntermediateThrowEvent" name="This is a Signal Intermediate Throw Event">
+      <bpmn:incoming>sequenceFlow_4</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_5</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="signalEventDefinition_1"/>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="ThisIsAMessageIntermediateThrowEvent" name="This is a Message Intermediate Throw Event">
+      <bpmn:incoming>sequenceFlow_6</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_7</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="messageEventDefinition_1"/>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateCatchEvent id="ThisIsASignalIntermediateCatchEvent" name="This is a Signal Intermediate Catch Event">
+      <bpmn:incoming>sequenceFlow_5</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_6</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="signalEventDefinition_2"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="ThisIsAMessageIntermediateCatchEvent" name="This is a Message Intermediate Catch Event">
+      <bpmn:incoming>sequenceFlow_7</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_8</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="messageEventDefinition_2"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="ThisIsATimerIntermediateCatchEvent" name="This is a Timer Intermediate Catch Event">
+      <bpmn:incoming>sequenceFlow_8</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_9</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="timerEventDefinition_1"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="ThisIsAEscalationIntermediateThrowEvent" name="This is a Escalation Intermediate Throw Event">
+      <bpmn:incoming>sequenceFlow_9</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_10</bpmn:outgoing>
+      <bpmn:escalationEventDefinition id="escalationEventDefinition_1"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="endEvent_1">
+      <bpmn:incoming>sequenceFlow_10</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="IntermediateEventsOverview">
+      <bpmndi:BPMNShape id="_BPMNShape_startEvent_1" bpmnElement="startEvent_1" isExpanded="false">
+        <dc:Bounds x="52" y="100" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsAnIntermediateThrowEvent" bpmnElement="ThisIsAnIntermediateThrowEvent" isExpanded="false">
+        <dc:Bounds x="140" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_1" bpmnElement="sequenceFlow_1">
+        <di:waypoint x="88" y="118"/>
+        <di:waypoint x="140" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsAConditionalIntermediateThrowEvent" bpmnElement="ThisIsAConditionalIntermediateThrowEvent" isExpanded="false">
+        <dc:Bounds x="260" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_2" bpmnElement="sequenceFlow_2">
+        <di:waypoint x="240" y="118"/>
+        <di:waypoint x="260" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsACompensateIntermediateThrowEvent" bpmnElement="ThisIsACompensateIntermediateThrowEvent" isExpanded="false">
+        <dc:Bounds x="380" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_3" bpmnElement="sequenceFlow_3">
+        <di:waypoint x="360" y="118"/>
+        <di:waypoint x="380" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsASignalIntermediateThrowEvent" bpmnElement="ThisIsASignalIntermediateThrowEvent" isExpanded="false">
+        <dc:Bounds x="500" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_4" bpmnElement="sequenceFlow_4">
+        <di:waypoint x="480" y="118"/>
+        <di:waypoint x="500" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsASignalIntermediateCatchEvent" bpmnElement="ThisIsASignalIntermediateCatchEvent" isExpanded="false">
+        <dc:Bounds x="620" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_5" bpmnElement="sequenceFlow_5">
+        <di:waypoint x="600" y="118"/>
+        <di:waypoint x="620" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsAMessageIntermediateThrowEvent" bpmnElement="ThisIsAMessageIntermediateThrowEvent" isExpanded="false">
+        <dc:Bounds x="740" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_6" bpmnElement="sequenceFlow_6">
+        <di:waypoint x="720" y="118"/>
+        <di:waypoint x="740" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsAMessageIntermediateCatchEvent" bpmnElement="ThisIsAMessageIntermediateCatchEvent" isExpanded="false">
+        <dc:Bounds x="860" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_7" bpmnElement="sequenceFlow_7">
+        <di:waypoint x="840" y="118"/>
+        <di:waypoint x="860" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsATimerIntermediateCatchEvent" bpmnElement="ThisIsATimerIntermediateCatchEvent" isExpanded="false">
+        <dc:Bounds x="980" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_8" bpmnElement="sequenceFlow_8">
+        <di:waypoint x="960" y="118"/>
+        <di:waypoint x="980" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ThisIsAEscalationIntermediateThrowEvent" bpmnElement="ThisIsAEscalationIntermediateThrowEvent" isExpanded="false">
+        <dc:Bounds x="1100" y="78" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_9" bpmnElement="sequenceFlow_9">
+        <di:waypoint x="1080" y="118"/>
+        <di:waypoint x="1100" y="118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_endEvent_1" bpmnElement="endEvent_1" isExpanded="false">
+        <dc:Bounds x="1220" y="100" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_10" bpmnElement="sequenceFlow_10">
+        <di:waypoint x="1200" y="118"/>
+        <di:waypoint x="1220" y="118"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

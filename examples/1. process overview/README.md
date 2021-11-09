@@ -19,7 +19,7 @@ We'll use this process to describe the basic structure of BPMNator YAML syntax.
 The root level admits only three tags: `process`, `defaultType` and `activities`.
 
 - Tag `process` is the only one mandatory. It contains the name of the process and __can assume any string value__.
-- Tag `defaultType` is optional. It contains the default type of activity, in case you don't explicitly set the tag `type` for one or more activities. It can assume one of the following values: __`sub`, `human`, `manual`, `receive`, `script`, `send`, `task`, `busin`, `serv`, `call`, `pgw`, `igw`, `xgw`__.
+- Tag `defaultType` is optional. It contains the default type of activity, in case you don't explicitly set the tag `type` for one or more activities. It can assume one of the following values: __`sub`, `human`, `manual`, `receive`, `script`, `send`, `task`, `busin`, `serv`, `call`, `pgw`, `igw`, `xgw`, `inthrow`, `inmcatch`, `inmthrow`, `intimer`, `inescal`, `incond`, `incomp`, `inscatch`, `insthrow`__.
 - Tag `activities` is followed by one or more child tags that corresponds to the name of the respective activity. The first one listed, is always the BPM process first activity and automatically BPMNator creates a start event that precedes this activity. Only one start event is admitted.
 
 Every activity is identified with its name. For example the activity _"This is the first activity's name"_ is marked by the tag of the same name (`This is the first activity's name`).
@@ -28,7 +28,7 @@ __Process name and every activities name must be uniques__ because BPMNator calc
 
 Under each activity's main tag, only six __optional__ tags are admitted: `type`, `activities`, `goto`, `xgoto`, `pgoto`, `igoto`.
 
-- Tag `type` indicates the activity type and can assume one of the following values: __`sub`, `human`, `manual`, `receive`, `script`, `send`, `task`, `busin`, `serv`, `call`, `pgw`, `igw`, `xgw`__.
+- Tag `type` indicates the activity type and can assume one of the following values: __`sub`, `human`, `manual`, `receive`, `script`, `send`, `task`, `busin`, `serv`, `call`, `pgw`, `igw`, `xgw`, `inthrow`, `inmcatch`, `inmthrow`, `intimer`, `inescal`, `incond`, `incomp`, `inscatch`, `insthrow`__.
 - Tag `activities` can be used only when activity type is `sub` (a subprocess) and his content follows the same rules of tag `activities` at root level of YAML file.
 - Tags `goto`, `xgoto`, `pgoto`, `igoto` can be used in every activity type but they are mutually exclusive. That is, for example, if you use a `goto` inside an activity, then you cannot use any other tag among `xgoto`, `pgoto` or `igoto`. And so on.
 - Tag `goto` can have various contents, depending on activity type:

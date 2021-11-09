@@ -8,4 +8,5 @@ One way to learn BPMNator YAML syntax is following the examples included in this
 4. Explicit goto
 5. Implicit gateway
 6. Explicit gateway
-7. Complex process
+7. Intermediate events overview
+8. Complex process

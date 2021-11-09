@@ -12,7 +12,7 @@ export type StrOrStrArr = string | string[];
 
 //process types
 export const ActivityType = <const> ['sub', 'pgw', 'igw', 'xgw', 'task', 'human', 'serv', 'send', 'receive', 'manual', 'busin', 'script', 'call'
-,'inthrow', 'inmcatch', 'inmthrow', 'intimer', 'inescal', 'incond', 'incomp', 'inscatch', 'insthrow', 'inlthrow'
+,'inthrow', 'inmcatch', 'inmthrow', 'intimer', 'inescal', 'incond', 'incomp', 'inscatch', 'insthrow'//, 'inlthrow'
 ];
 
 export type TActivityType = typeof ActivityType[number];
