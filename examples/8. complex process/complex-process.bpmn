@@ -1,84 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn">
-  <bpmn:process id="ComplexProcess" name="Complex process" isExecutable="true">
-    <bpmn:sequenceFlow id="sequenceFlow_1" sourceRef="startEvent_1" targetRef="Task1"/>
-    <bpmn:sequenceFlow id="sequenceFlow_2" sourceRef="Task1" targetRef="Task3">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${condition1}</bpmn:conditionExpression>
+  <bpmn:process id="ExampleFromEnglishWikipedia_bpmn_Page" name="Example from English Wikipedia &quot;BPMN&quot; page" isExecutable="true">
+    <bpmn:sequenceFlow id="sequenceFlow_1" sourceRef="startEvent_1" targetRef="WorkingGroupActivities"/>
+    <bpmn:sequenceFlow id="sequenceFlow_2" sourceRef="WorkingGroupActivities" targetRef="FridayAt6PmPacificTime"/>
+    <bpmn:sequenceFlow id="sequenceFlow_3" sourceRef="FridayAt6PmPacificTime" targetRef="CheckStatusOfWorkingGroup"/>
+    <bpmn:sequenceFlow id="sequenceFlow_4" sourceRef="CheckStatusOfWorkingGroup" targetRef="exclusiveGateway_1"/>
+    <bpmn:sequenceFlow id="sequenceFlow_5" sourceRef="exclusiveGateway_1" targetRef="SendCurrentIssueList">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${active}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="sequenceFlow_3" sourceRef="Task1" targetRef="Task2">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${condition2}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="sequenceFlow_6" sourceRef="exclusiveGateway_1" targetRef="endEvent_1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!active}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="sequenceFlow_4" sourceRef="Task2" targetRef="endEvent_1"/>
-    <bpmn:sequenceFlow id="sequenceFlow_5" sourceRef="Task3" targetRef="endEvent_2"/>
+    <bpmn:sequenceFlow id="sequenceFlow_7" sourceRef="SendCurrentIssueList" targetRef="FridayAt6PmPacificTime"/>
     <bpmn:startEvent id="startEvent_1">
       <bpmn:outgoing>sequenceFlow_1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="Task1">
+    <bpmn:intermediateCatchEvent id="WorkingGroupActivities" name="Working group activities">
       <bpmn:incoming>sequenceFlow_1</bpmn:incoming>
       <bpmn:outgoing>sequenceFlow_2</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="messageEventDefinition_1"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="FridayAt6PmPacificTime" name="Friday at 6 PM Pacific Time">
+      <bpmn:incoming>sequenceFlow_2</bpmn:incoming>
       <bpmn:outgoing>sequenceFlow_3</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
+      <bpmn:timerEventDefinition id="timerEventDefinition_1"/>
+    </bpmn:intermediateCatchEvent>
     <bpmn:endEvent id="endEvent_1">
+      <bpmn:incoming>sequenceFlow_6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="exclusiveGateway_1">
       <bpmn:incoming>sequenceFlow_4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:endEvent id="endEvent_2">
-      <bpmn:incoming>sequenceFlow_5</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:userTask id="Task2" name="Task 2">
+      <bpmn:outgoing>sequenceFlow_5</bpmn:outgoing>
+      <bpmn:outgoing>sequenceFlow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="CheckStatusOfWorkingGroup" name="Check status of working group">
       <bpmn:incoming>sequenceFlow_3</bpmn:incoming>
       <bpmn:outgoing>sequenceFlow_4</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:intermediateThrowEvent id="Task3" name="Task 3">
-      <bpmn:incoming>sequenceFlow_2</bpmn:incoming>
-      <bpmn:outgoing>sequenceFlow_5</bpmn:outgoing>
-      <bpmn:conditionalEventDefinition id="conditionalEventDefinition_1">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">pippo</bpmn:condition>
-      </bpmn:conditionalEventDefinition>
-    </bpmn:intermediateThrowEvent>
+    </bpmn:task>
+    <bpmn:sendTask id="SendCurrentIssueList" name="Send current issue list">
+      <bpmn:incoming>sequenceFlow_5</bpmn:incoming>
+      <bpmn:outgoing>sequenceFlow_7</bpmn:outgoing>
+    </bpmn:sendTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ComplexProcess">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ExampleFromEnglishWikipedia_bpmn_Page">
       <bpmndi:BPMNShape id="_BPMNShape_startEvent_1" bpmnElement="startEvent_1" isExpanded="false">
         <dc:Bounds x="52" y="100" width="36" height="36"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_Task1" bpmnElement="Task1" isExpanded="false">
-        <dc:Bounds x="140" y="93" width="50" height="50"/>
+      <bpmndi:BPMNShape id="_BPMNShape_WorkingGroupActivities" bpmnElement="WorkingGroupActivities" isExpanded="false">
+        <dc:Bounds x="140" y="78" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_1" bpmnElement="sequenceFlow_1">
         <di:waypoint x="88" y="118"/>
         <di:waypoint x="140" y="118"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_Task3" bpmnElement="Task3" isExpanded="false">
-        <dc:Bounds x="210" y="28" width="100" height="80"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_Task2" bpmnElement="Task2" isExpanded="false">
-        <dc:Bounds x="210" y="128" width="100" height="80"/>
+      <bpmndi:BPMNShape id="_BPMNShape_FridayAt6PmPacificTime" bpmnElement="FridayAt6PmPacificTime" isExpanded="false">
+        <dc:Bounds x="380" y="178.5" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_2" bpmnElement="sequenceFlow_2">
-        <di:waypoint x="190" y="118"/>
-        <di:waypoint x="200" y="118"/>
-        <di:waypoint x="200" y="68"/>
-        <di:waypoint x="210" y="68"/>
+        <di:waypoint x="240" y="118"/>
+        <di:waypoint x="260" y="117.5"/>
+        <di:waypoint x="380" y="117.5"/>
+        <di:waypoint x="380" y="219"/>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_CheckStatusOfWorkingGroup" bpmnElement="CheckStatusOfWorkingGroup" isExpanded="false">
+        <dc:Bounds x="20" y="206.5" width="100" height="80"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_3" bpmnElement="sequenceFlow_3">
-        <di:waypoint x="190" y="118"/>
-        <di:waypoint x="200" y="118"/>
-        <di:waypoint x="200" y="168"/>
-        <di:waypoint x="210" y="168"/>
+        <di:waypoint x="380" y="219"/>
+        <di:waypoint x="250" y="219"/>
+        <di:waypoint x="250" y="247"/>
+        <di:waypoint x="120" y="247"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_endEvent_2" bpmnElement="endEvent_2" isExpanded="false">
-        <dc:Bounds x="330" y="50" width="36" height="36"/>
+      <bpmndi:BPMNShape id="_BPMNShape_exclusiveGateway_1" bpmnElement="exclusiveGateway_1" isExpanded="false">
+        <dc:Bounds x="165" y="221.5" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_4" bpmnElement="sequenceFlow_4">
+        <di:waypoint x="120" y="247"/>
+        <di:waypoint x="165" y="247"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_SendCurrentIssueList" bpmnElement="SendCurrentIssueList" isExpanded="false">
+        <dc:Bounds x="260" y="178.5" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_endEvent_1" bpmnElement="endEvent_1" isExpanded="false">
-        <dc:Bounds x="330" y="150" width="36" height="36"/>
+        <dc:Bounds x="292" y="278.5" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_5" bpmnElement="sequenceFlow_5">
-        <di:waypoint x="310" y="68"/>
-        <di:waypoint x="330" y="68"/>
+        <di:waypoint x="215" y="247"/>
+        <di:waypoint x="238" y="247"/>
+        <di:waypoint x="238" y="219"/>
+        <di:waypoint x="260" y="219"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_4" bpmnElement="sequenceFlow_4">
-        <di:waypoint x="310" y="168"/>
-        <di:waypoint x="330" y="168"/>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_6" bpmnElement="sequenceFlow_6">
+        <di:waypoint x="165" y="247"/>
+        <di:waypoint x="310" y="247"/>
+        <di:waypoint x="310" y="278.5"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_BPMNConnection_sequenceFlow_7" bpmnElement="sequenceFlow_7">
+        <di:waypoint x="360" y="219"/>
+        <di:waypoint x="380" y="219"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

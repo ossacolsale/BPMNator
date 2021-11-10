@@ -1,14 +1,16 @@
-process: Complex process
-defaultType: human
+process: Example from English Wikipedia "BPMN" page
 activities:
-  Task 1:
-    type: xgw
-    goto:
-      - if: ${condition1}
-        then: Task 3
-      - if: ${condition2}
-        then: Task 2
-  Task 2:
-  Task 3:
-    type: incond
-    condition: pippo
+  Working group activities:
+    type: inmcatch
+    goto: Friday at 6 PM Pacific Time
+  Friday at 6 PM Pacific Time:
+    type: intimer
+    goto: Check status of working group
+  Check status of working group:
+    xgoto:
+      - if: ${active}
+        then: Send current issue list
+      - if: ${!active}
+  Send current issue list:
+    type: send
+    goto: Friday at 6 PM Pacific Time

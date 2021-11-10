@@ -1,4 +1,4 @@
-import { BPMNConditionExpression, BPMNEndEvent, BPMNInclusiveExclusiveGateway, BPMNProcess, BPMNSequenceFlow, BPMNStartEvent, BPMNSubProcess, BPMNUserTask, BPMNParallelGateway, BPMNBusinessRuleTask, BPMNCallActivity, BPMNManualTask, BPMNReceiveTask, BPMNScriptTask, BPMNServiceTask, BPMNTask, BPMNIntermediateThrowEvent, BPMNMessageIntermediateCatchEvent, BPMNMessageIntermediateThrowEvent, BPMNTimerIntermediateCatchEvent, BPMNEscalationIntermediateThrowEvent, BPMNConditionalIntermediateThrowEvent, BPMNCompensateIntermediateThrowEvent, BPMNSignalIntermediateCatchEvent, BPMNSignalIntermediateThrowEvent, BPMNLinkIntermediateThrowEvent } from "../entities/BPMN/BPMNElements";
+import { BPMNConditionExpression, BPMNEndEvent, BPMNInclusiveExclusiveGateway, BPMNProcess, BPMNSequenceFlow, BPMNStartEvent, BPMNSubProcess, BPMNUserTask, BPMNParallelGateway, BPMNBusinessRuleTask, BPMNCallActivity, BPMNManualTask, BPMNReceiveTask, BPMNScriptTask, BPMNServiceTask, BPMNTask, BPMNIntermediateThrowEvent, BPMNMessageIntermediateCatchEvent, BPMNMessageIntermediateThrowEvent, BPMNTimerIntermediateCatchEvent, BPMNEscalationIntermediateThrowEvent, BPMNConditionalIntermediateThrowEvent, BPMNCompensateIntermediateThrowEvent, BPMNSignalIntermediateCatchEvent, BPMNSignalIntermediateThrowEvent, BPMNLinkIntermediateThrowEvent, BPMNsendTask as BPMNSendTask } from "../entities/BPMN/BPMNElements";
 import { BPMNEntity } from "../entities/BPMN/BPMNEntity";
 import { TBPMNNodeNames, BPMNNodeNames } from "../entities/BPMN/BPMNSharedTypes";
 import { Activity } from "../entities/Process/Activity";
@@ -165,7 +165,7 @@ export class BPMNProcessBuilder {
                 _ref.addChild(new BPMNScriptTask(activity.$id, activity.name, this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
             break;
             case 'send':
-                _ref.addChild(new BPMNUserTask(activity.$id, activity.name, this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
+                _ref.addChild(new BPMNSendTask(activity.$id, activity.name, this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
             break;
             case 'serv':
                 _ref.addChild(new BPMNServiceTask(activity.$id, activity.name, this._incomingFlows[activity.$id], this._outgoingFlows[activity.$id]));
