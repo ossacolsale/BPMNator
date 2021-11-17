@@ -127,9 +127,9 @@ const bpmnator = new BPMNator();
 
 You can also use BPMNator, with some limitations, via command line.
 
-If you installed it globally __just type `bpmnator` in your shell console__.
+* If you installed it globally __just type `bpmnator` in your shell console__.
 
-If you installed it only locally, just make the following steps:
+* If you installed it only locally, just make the following steps:
 
 ```BASH
 # go inside "bpmnator" folder in one of two possible ways:
@@ -138,6 +138,3 @@ cd bpmnator              ## if you cloned git repository
 # execute main file:
 node dist/bin/bmpnator
 ```
-
-
-
