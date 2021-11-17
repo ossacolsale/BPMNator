@@ -1,9 +1,12 @@
 {
   "name": "bpmnator",
-  "version": "0.0.12",
+  "version": "0.0.15",
   "description": "BPMNator",
-  "main": "./dist/bin/bpmnator",
-  "types": "./dist/bin/bpmnator.d.ts",
+  "main": "dist/bin/bpmnator.js",
+  "bin": {
+    "bpmnator": "dist/bin/bpmnator.js"
+  },
+  "types": "dist/bin/bpmnator.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"

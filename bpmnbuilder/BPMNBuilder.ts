@@ -19,7 +19,6 @@ export class BPMNBuilder {
     `; //put here a diagram to test
 
     public async produceDiagram () {
-        console.log('test');
         const AutoLayout = require('bpmn-auto-layout');    
         const autoLayout = new AutoLayout();
         //const BPMNComplete = await autoLayout.layoutProcess(this._TESTDIAG); //testing purpose

@@ -68,11 +68,19 @@ There are two ways to install BPMNator. Via npm repository or cloning git reposi
 
 ### Way 1: install via npm
 
+If you want to use BPMNator as a library:
+
 ```BASH
 # (optionally) init a new NodeJS project:
 npm init
-# just install bpmnator:
+# just install bpmnator locally:
 npm i bpmnator
+```
+Or if you want to use BPMNator both as a library and as command-line program:
+
+```BASH
+# install bpmnator globally
+npm i --global bpmnator
 ```
 
 ### Way 2: install from git repository
@@ -117,7 +125,11 @@ const bpmnator = new BPMNator();
 // and so on with other commands...
 ```
 
-You can also use BPMNator, with some limitations, via command line:
+You can also use BPMNator, with some limitations, via command line.
+
+If you installed it globally __just type `bpmnator` in your shell console__.
+
+If you installed it only locally, just make the following steps:
 
 ```BASH
 # go inside "bpmnator" folder in one of two possible ways:
