@@ -41,7 +41,7 @@ Consider also that the following tasks are not execution-ready and they need to 
 - `serv`
 - `call`
 
-Notice that the activity named `This is an activity inside the subprocess` has no tag `type`. When an activity lacks the tag `type`, if exists a root tag named `defaultType`, BPMNator associates that default type to the activity. Otherwise the default associated type is always `task`.
+Notice that the activity named `This is an activity inside the subprocess` has no tag `type`. When an activity lacks the tag `type`, if there exists a root tag named `defaultType`, BPMNator associates that default type to the activity. Otherwise the default associated type is always `task`.
 
 The resulting process has this aspect:
 

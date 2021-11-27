@@ -2,7 +2,7 @@
 
 ## Description
 
-Look at the following image, that is, at the time this example was writed, the article's main image from English Wikipedia page https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation (it's necessary to cite the author: Mikelo Skarabo - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=91302590).
+Look at the following image, that is, at the time this example was written, the article's main image from English Wikipedia page https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation (it's necessary to cite the author: Mikelo Skarabo - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=91302590).
 
 ![English Wikipedia BPMN image](AProcessWithNormalFlow.png)
 

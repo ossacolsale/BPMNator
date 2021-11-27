@@ -60,13 +60,13 @@ activities:
 ```
 
 In this process we use all the three gateways available in BPMNator, in an explicit format (that is as an activity):
-- exlusive gateway (activity type `xgw`)
+- exclusive gateway (activity type `xgw`)
 - inclusive gateway (activity type `igw`)
 - parallel gateway (activity type `pgw`)
 
 In the example we have three sequential subprocess, each of that containing a different kind of gateway:
 
-1. `Subprocess1` starts with an exlusive gateway (named `xgw1`), followed by two alternative tasks. Inside `goto` tag, we write a list of two conditions: `if` the expression `${condition1}` is true, `then` we go to the task `Subprocess1 condition1-task`, else `if` the expression `${condition2}` is true, `then` we go to the task `Subprocess1 condition2-task`.
+1. `Subprocess1` starts with an exclusive gateway (named `xgw1`), followed by two alternative tasks. Inside `goto` tag, we write a list of two conditions: `if` the expression `${condition1}` is true, `then` we go to the task `Subprocess1 condition1-task`, else `if` the expression `${condition2}` is true, `then` we go to the task `Subprocess1 condition2-task`.
 
 2. `Subprocess2` starts with a parallel gateway (named `pgw1`), followed by three parallel tasks. Inside goto tag, we write a list of three destinations: 
     - Subprocess2 parallel task1

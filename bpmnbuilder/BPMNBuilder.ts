@@ -1,7 +1,5 @@
-import { create } from 'domain';
 import { create as xml } from 'xmlbuilder2';
 import { Process } from '../entities/Process/Process';
-import { KeyObjDict } from '../entities/SharedTypes';
 import { BPMNProcessBuilder } from './BPMNProcessBuilder';
 
 export class BPMNBuilder {
