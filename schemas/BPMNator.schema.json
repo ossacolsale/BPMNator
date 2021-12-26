@@ -1,0 +1,147 @@
+{
+    "$id": "bpmnator.schema.json",
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "title": "BPMNator",
+    "description": "Schema for BPMNator's YAML files",
+    "type": "object",
+    "properties": {
+      "process": {
+        "title": "Process name",
+        "description": "An arbitrary name for this project",
+        "type": "string"
+      },
+      "dafaultType": {
+        "title": "Default activity type",
+        "description": "A default activity type for activities where omitted the field 'type'",
+        "oneOf": [
+          {"type": "null"},
+          {"$ref": "#/definitions/activityTypes"}
+        ]
+      },
+      "activities": {
+        "title": "Activities",
+        "description": "List of tasks",
+        "oneOf": [
+          {"type": "null"},
+          {"$ref": "#/$defs/activities"}
+        ] 
+      }
+    },
+    "additionalProperties": false,
+    "$defs": {
+      "activities": {
+        "title": "Activities",
+        "description": "List of activities composing the process, when located in root level, or the subprocess, when located onto activity of type 'sub'",
+        "type": "object",
+        "patternProperties": {
+          "^.*$": { 
+            "oneOf": [
+              {"type": "null"},
+              {"$ref": "#/$defs/activity"}
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "activity": {
+        "title": "Activity",
+        "type": "object",
+        "properties": {
+          "activities": { 
+            "title": "Activities",
+            "description": "List of tasks admitted only for 'sub' task",
+            "oneOf": [
+              {"type": "null"},
+              {"$ref": "#/$defs/activities"}
+            ]
+          },
+          "type": { "$ref" : "#/definitions/activityTypes" },
+          "condition": {
+            "title": "Condition",
+            "description": "A conditional expression to use only with activity type 'incond'",
+            "type": "string"
+          },
+          "xgoto": {
+            "title": "Exclusive goto",
+            "description": "It puts an exclusive gateway after this task that follows the rules you write in an array of 'if-then' clauses",
+            "$ref" : "#/$defs/ixgoto"
+          },
+          "igoto": {
+            "title": "Inclusive goto",
+            "description": "It puts an inclusive gateway after this task that follows the rules you write in an array of 'if-then' clauses",
+            "$ref" : "#/$defs/ixgoto"
+          },
+          "pgoto": {
+            "title": "Parallel goto",
+            "description": "It puts a parallel gateway after this task that follows the rules you write in an array of at least two task names to go to",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2
+          },
+          "goto": {
+            "title": "Go to",
+            "description": "Indicates the task name to go to after completion of this task. This must be a string except for:\n\n- activity types 'xgw' and 'igw', where it must be a list of 'if-then' clauses\n\n- activity type 'pgw', where it must be a list of at least two task names to go to",
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 2
+              },
+              { "$ref": "#/$defs/ixgoto" }
+            ] 
+          }
+        },
+        "oneOf": [
+          { "required": ["pgoto"] },
+          { "required": ["xgoto"] },
+          { "required": ["igoto"] },
+          { "required": ["goto"] },
+          { "not":
+            { "anyOf": [
+              { "required": ["pgoto"] },
+              { "required": ["xgoto"] },
+              { "required": ["igoto"] },
+              { "required": ["goto"] }
+              ] 
+            }
+          }
+        ],
+        "additionalProperties": false
+      },
+      "ixgoto": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "title": "If-Then",
+          "Description": "A couple of a condition (inside 'if') and a consequent goto (inside 'then')",
+          "type": "object",
+          "properties": {
+            "if": {
+              "title": "If",
+              "description": "A conditional expression",
+              "type": "string"
+            },
+            "then": {
+              "title": "Then",
+              "description": "A name of an element to go to if the conditional expression is true",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "definitions": {
+      "activityTypes": {
+        "title": "Type",
+        "description": "Optional parameter that indicates the activity type (that overwrites 'defaultType' root tag and has value 'task' if not specified)",
+        "enum": ["sub", "pgw", "igw", "xgw", "task", "human", "serv", "send", "receive", "manual", "busin", "script", "call"
+          ,"inthrow", "inmcatch", "inmthrow", "intimer", "inescal", "incond", "incomp", "inscatch", "insthrow"]
+      }
+    },
+    "required": ["process"]
+  }
