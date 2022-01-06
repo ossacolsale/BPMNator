@@ -10,7 +10,7 @@
         "description": "An arbitrary name for this project",
         "type": "string"
       },
-      "dafaultType": {
+      "defaultType": {
         "title": "Default activity type",
         "description": "A default activity type for activities where omitted the field 'type'",
         "oneOf": [
