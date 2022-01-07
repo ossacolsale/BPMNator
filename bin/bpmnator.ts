@@ -128,7 +128,7 @@ export class BPMNator {
     }
 }
 
-if (typeof(process) !== undefined) {
+if (typeof(process) != 'undefined') {
     try {    
         const bpmnator = new BPMNator();
         const argv = process.argv;
