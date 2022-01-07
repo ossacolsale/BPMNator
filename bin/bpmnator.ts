@@ -8,6 +8,14 @@ export class BPMNator {
     private parser: YAMLParser;
     private builder: BPMNBuilder;
     private _BPMN: string;
+    private lastError: string;
+
+    /**
+     * @returns the last error
+     */
+    public get LastError (): string {
+        return this.lastError;
+    }
 
     /**
      * @returns a string containing the BPMN output
@@ -47,6 +55,7 @@ export class BPMNator {
      */
     public LoadYAMLbyURI (URI: string, charset: BufferEncoding = 'utf8'): boolean {
         this.parser = new YAMLParser('uri', URI, charset);
+        this.lastError = this.parser.Error;
         return this.parser.NoError;
     }
 
@@ -57,6 +66,7 @@ export class BPMNator {
      */
     public LoadYAMLbyContent (Content: string): boolean {
         this.parser = new YAMLParser('content', Content);
+        this.lastError = this.parser.Error;
         return this.parser.NoError;
     }
 
@@ -66,6 +76,7 @@ export class BPMNator {
      */
     public BuildProcess (): boolean {
         this.builder = new BPMNBuilder(this.parser.Process);
+        this.lastError = this.builder.Error;
         return this.builder.NoError;
     }
 
@@ -90,6 +101,7 @@ export class BPMNator {
      */
     public ProduceBPMNWithoutDiagram (): string {
         this.builder.BuildBPMNWithoudDiagram();
+        this.lastError = this.builder.Error;
         if (this.builder.NoError) return this.builder.BPMNWithoutDiagram;
         else return null;
     }
@@ -100,6 +112,7 @@ export class BPMNator {
             return true;
         }
         catch (e) {
+            this.lastError = e.message;
             console.log(e.message);
             return false;
         }
@@ -110,46 +123,50 @@ export class BPMNator {
         const clog = console.log;
         console.log = () => {};
         await this.builder.produceDiagram();
+        this.lastError = this.builder.Error;
         console.log = clog;
     }
 }
 
-try {    
-    const bpmnator = new BPMNator();
-    const argv = process.argv;
-    switch (argv.length) {
-        case 3:
-        case 4:
-            if (bpmnator.LoadYAMLbyURI(argv[2])) {
-                if (bpmnator.BuildProcess()) {   
-                    switch (argv.length) {
-                        case 3:
-                            bpmnator.ProduceBPMN().then((val) => console.log(val));
-                        break;
-                        case 4:
-                            bpmnator.SaveBPMN(argv[3]);
-                        break;
-                    }
-                } 
-            }
-        break;
-        default:
-            console.log(`
-            BPMNator -- command line version
-            ################################
-
-            Usage: 
-                - node dist/bin/bpmnator 'uri-input-yaml'
-                (this will print to stdout the bpmn)
-
-                or
-
-                - node dist/bin/bpmnator 'uri-input-yaml' 'uri-output-bpmn'
-                (this will save the bpmn)
-            `);
-        break;
-    }
+if (typeof(process) !== undefined) {
+    try {    
+        const bpmnator = new BPMNator();
+        const argv = process.argv;
+        switch (argv.length) {
+            case 3:
+            case 4:
+                if (bpmnator.LoadYAMLbyURI(argv[2])) {
+                    if (bpmnator.BuildProcess()) {   
+                        switch (argv.length) {
+                            case 3:
+                                bpmnator.ProduceBPMN().then((val) => console.log(val));
+                            break;
+                            case 4:
+                                bpmnator.SaveBPMN(argv[3]);
+                            break;
+                        }
+                    } 
+                }
+            break;
+            default:
+                console.log(`
+                BPMNator -- command line version
+                ################################
     
-} catch (e) {
-    console.log(e);
+                Usage: 
+                    - node dist/bin/bpmnator 'uri-input-yaml'
+                    (this will print to stdout the bpmn)
+    
+                    or
+    
+                    - node dist/bin/bpmnator 'uri-input-yaml' 'uri-output-bpmn'
+                    (this will save the bpmn)
+                `);
+            break;
+        }
+        
+    } catch (e) {
+        console.log(e);
+    }
 }
+
