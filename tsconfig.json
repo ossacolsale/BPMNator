@@ -2,6 +2,9 @@
     "compilerOptions": {
       "module": "commonjs",
       "noImplicitAny": true,
+      "lib": [
+        "es2016"
+      ],
       "removeComments": true,
       "preserveConstEnums": true,
       "sourceMap": true,

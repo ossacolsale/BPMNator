@@ -142,3 +142,17 @@ node dist/bin/bmpnator
 ## License
 
 BSD 3-Clause
+
+## Development
+
+Repository guidance for coding agents is in [`AGENTS.md`](AGENTS.md), with the project map in [`docs/ai/`](docs/ai/INDEX.md).
+
+```bash
+npm ci
+npm test
+npm run build
+```
+
+## Releases
+
+Releases are built from a `vMAJOR.MINOR.PATCH` tag or by manually rerunning the release workflow for an existing tag. The workflow validates the package and attaches its tarball and checksum to a GitHub Release; it does not publish to npm.
