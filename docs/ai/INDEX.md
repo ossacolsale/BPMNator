@@ -1,3 +1,8 @@
-# AI repository guide
+# AI documentation index
 
-This repository publishes BPMNator as an npm package and CLI. Read the [repository map](CODE-MAP.md) before editing. For code changes run `npm ci`, `npm test`, `npm run build`, and `npm ls js-yaml`; before release work also run `npm run pack:release`. GitHub Actions runs CI on pushes and pull requests. Releases are created from immutable semantic version tags after package validation.
+Open only the reference relevant to the current task:
+
+- [`CODE-MAP.md`](CODE-MAP.md): repository structure, ownership, and source/generated-file relationships; consult when orienting across components or changing repository organization.
+- [`RELEASES.md`](RELEASES.md): package versioning, artifact validation, and GitHub Release workflow; consult for release or packaging work.
+
+The root [`AGENTS.md`](../../AGENTS.md) is the operating contract. There are no functional specifications, architecture decision records, test reports, or active session handoffs in this repository today; do not create them unless the work makes them useful.

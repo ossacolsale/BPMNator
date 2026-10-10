@@ -3,6 +3,7 @@
 ## 1.0.0
 
 ### Changed
+- Streamline agent guidance and make AI documentation references task-specific.
 - Upgrade BPMN graphical layout and XML generation dependencies.
 - Require Node.js 20.12 or newer for the runtime dependency graph.
 - Add a patched YAML parser and a prototype-pollution regression test.

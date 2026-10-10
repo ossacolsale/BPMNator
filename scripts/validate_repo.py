@@ -14,6 +14,7 @@ REQUIRED = (
     "package-lock.json",
     "docs/ai/INDEX.md",
     "docs/ai/CODE-MAP.md",
+    "docs/ai/RELEASES.md",
     ".github/copilot-instructions.md",
     ".github/workflows/ci.yml",
     ".github/workflows/release.yml",
@@ -21,10 +22,9 @@ REQUIRED = (
 )
 HEADINGS = (
     "Purpose and navigation",
-    "Repository map",
-    "Change rules",
+    "Working rules",
     "Verification",
-    "Versioning and releases",
+    "Specialized guidance",
     "Completion",
 )
 

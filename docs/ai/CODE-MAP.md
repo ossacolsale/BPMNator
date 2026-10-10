@@ -3,6 +3,7 @@
 | Path | Role | Change when |
 | --- | --- | --- |
 | `AGENTS.md` | Canonical instructions for coding agents | Repository-wide agent rules change |
+| `docs/ai/INDEX.md`, `docs/ai/RELEASES.md` | Selective AI documentation index and release guidance | AI document ownership or release procedures change |
 | `CLAUDE.md`, `.github/copilot-instructions.md` | Compatibility pointers to the canonical instructions | Agent entry points change |
 | `bin/` | Public library and CLI entry point | Public API or CLI behavior changes |
 | `parser/` | YAML parsing and BPMNator syntax checking | YAML parsing or validation changes |
