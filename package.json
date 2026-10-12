@@ -8,7 +8,7 @@
   },
   "types": "dist/bin/bpmnator.d.ts",
   "engines": {
-    "node": ">=20.12"
+    "node": ">=22.13.0"
   },
   "files": [
     "dist/**",
@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "bpmn-auto-layout": "^1.3.0",
-    "fs": "0.0.1-security",
     "js-yaml": "^4.1.1",
     "xmlbuilder2": "^4.0.3"
   }

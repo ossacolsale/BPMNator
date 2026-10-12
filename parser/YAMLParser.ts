@@ -1,5 +1,5 @@
 import JS_YAML from 'js-yaml';
-import fs from 'fs';
+import fs from 'node:fs';
 import { KeyAnyDict } from '../entities/SharedTypes';
 import { SyntaxChecker } from './SyntaxChecker';
 import { ProcessBuilder } from './ProcessBuilder';

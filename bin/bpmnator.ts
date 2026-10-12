@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import fs from 'fs';
+import fs from 'node:fs';
 import { YAMLParser } from "../parser/YAMLParser";
 import { BPMNBuilder } from "../bpmnbuilder/BPMNBuilder";
 
